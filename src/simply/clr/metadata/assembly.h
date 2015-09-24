@@ -4,7 +4,7 @@
 #include <cor.h>
 #pragma warning(default: 4091)
 #include <simply/com/com_ptr.h>
-#include <simply/range.h>
+#include <simply/collections/range.h>
 #include "assembly_identity.h"
 #include "type.h"
 

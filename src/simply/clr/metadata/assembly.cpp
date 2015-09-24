@@ -1,10 +1,12 @@
 #include "assembly.h"
 #include "implementation.h"
-
-using namespace std;
+#include "implementation/type_definitions.h"
 
 namespace simply { namespace clr { namespace metadata
 {
+	using namespace std;
+	using namespace implementation;
+
     namespace // implementation
     {
         hash_algorithm decode_hash_algorithm(unsigned long raw_value)
@@ -62,7 +64,9 @@ namespace simply { namespace clr { namespace metadata
 
 	range<type> assembly::types() const
 	{
-		throw logic_error{ "Not implemented" };
+		com_ptr<IMetaDataImport2> metadata;
+		check(_metadata->QueryInterface(IID_IMetaDataImport2, metadata));
+		return range<type> { shared_ptr<enumerable<type>> { new type_definitions { metadata } } };
 	}
 
 	bool assembly::operator==(const assembly& other) const

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>
-#include <simply/enumerable.h>
+#include <simply/collections/enumerable.h>
 #include <simply/com/com_ptr.h>
 #include "../type.h"
 

@@ -5,7 +5,7 @@
 #pragma warning(default: 4091)
 #include <stdexcept>
 #include <simply/com/com_ptr.h>
-#include <simply/enumerator.h>
+#include <simply/collections/enumerator.h>
 
 namespace simply { namespace clr { namespace metadata { namespace implementation 
 {

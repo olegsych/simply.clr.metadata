@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include <algorithm>
 #include <CppUnitTest.h>
 #include <simply/assert.h>
 #include <simply/utility.h>
@@ -241,23 +242,38 @@ namespace simply { namespace clr { namespace metadata
 
 		#pragma region types()
 
-		//TEST_METHOD(types_returns_range_of_types_defined_in_assembly)
-		//{
-		//	const mdTypeDef type_token { 42 };
-		//	stub_metadata metadata;
-		//	metadata.enum_type_defs = [&](HCORENUM*, mdTypeDef* token, ULONG, ULONG* count)
-		//	{
-		//		*token = type_token;
-		//		*count = 1;
-		//		return S_OK;
-		//	};
-		//	assembly sut { &metadata };
+		TEST_METHOD(types_returns_range_of_types_defined_in_assembly)
+		{
+			const mdTypeDef type_token { 42 };
+			stub_metadata metadata;
+			metadata.enum_type_defs = [&](HCORENUM* enum_handle, mdTypeDef* token, ULONG, ULONG* count)
+			{
+				if (*enum_handle == nullptr)
+				{
+					*enum_handle = reinterpret_cast<HCORENUM>(-1);
+					*token = type_token;
+					*count = 1;
+					return S_OK;
+				}
+				return S_FALSE;
+			};
+			assembly sut { &metadata };
 
-		//	range<type> actual = sut.types();
+			range<type> actual = sut.types();
 
-		//	type expected[] { type { type_token, &metadata } };
-		//	assert::is_true(equal(actual.begin(), actual.end(), expected));
-		//}
+			type expected[] { type { type_token, &metadata } };			
+			assert::is_true(equal(begin(expected), end(expected), actual.begin()));
+			assert::is_equal(1, count_if(actual.begin(), actual.end(), [](type) { return true; }));
+		}
+
+		TEST_METHOD(types_throws_com_error_when_QueryInterface_does_not_return_IMetaDataImport2_to_fail_fast)
+		{
+			stub_metadata metadata;
+			metadata.query_interface = [](const GUID&, void**) { return E_NOINTERFACE; };
+			assembly sut { &metadata };
+			auto e = assert::throws<com_error>([&] { sut.types(); });
+			assert::is_equal(E_NOINTERFACE, e->hresult());
+		}
 
 		#pragma endregion
 
