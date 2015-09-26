@@ -60,6 +60,8 @@ namespace simply { namespace clr { namespace metadata
 		function<void(HCORENUM)> close_enum = [](HCORENUM) {};
 		function<HRESULT(HCORENUM*, mdTypeDef*, ULONG, ULONG*)> enum_type_defs = 
 			[](HCORENUM*, mdTypeDef*, ULONG, ULONG*) { return S_FALSE; };
+		function<HRESULT(mdMethodDef, mdTypeDef*, LPWSTR, ULONG, ULONG*, DWORD*, PCCOR_SIGNATURE*, ULONG*, ULONG*, DWORD*)> get_method_props =
+			[](mdMethodDef, mdTypeDef*, LPWSTR, ULONG, ULONG*, DWORD*, PCCOR_SIGNATURE*, ULONG*, ULONG*, DWORD*) { return S_OK; };
 		function<HRESULT(mdTypeDef, LPWSTR, ULONG, ULONG*, DWORD*, mdToken*)> get_type_def_props =
 			[](mdTypeDef, LPWSTR, ULONG, ULONG*, DWORD*, mdToken*) { return S_OK; };
 
@@ -198,9 +200,9 @@ namespace simply { namespace clr { namespace metadata
             return E_NOTIMPL;
         }
 
-        HRESULT __stdcall GetMethodProps(mdMethodDef mb, mdTypeDef * pClass, LPWSTR szMethod, ULONG cchMethod, ULONG * pchMethod, DWORD * pdwAttr, PCCOR_SIGNATURE * ppvSigBlob, ULONG * pcbSigBlob, ULONG * pulCodeRVA, DWORD * pdwImplFlags) override
+        HRESULT __stdcall GetMethodProps(mdMethodDef md, mdTypeDef* pClass, LPWSTR szMethod, ULONG cchMethod, ULONG* pchMethod, DWORD* pdwAttr, PCCOR_SIGNATURE* ppvSigBlob, ULONG* pcbSigBlob, ULONG* pulCodeRVA, DWORD* pdwImplFlags) override
         {
-            return E_NOTIMPL;
+			return get_method_props(md, pClass, szMethod, cchMethod, pchMethod, pdwAttr, ppvSigBlob, pcbSigBlob, pulCodeRVA, pdwImplFlags);
         }
 
         HRESULT __stdcall GetMemberRefProps(mdMemberRef mr, mdToken * ptk, LPWSTR szMember, ULONG cchMember, ULONG * pchMember, PCCOR_SIGNATURE * ppvSigBlob, ULONG * pbSig) override

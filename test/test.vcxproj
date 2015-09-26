@@ -166,6 +166,7 @@
     <ClCompile Include="implementation\metadata_enumerator_test.cpp" />
     <ClCompile Include="implementation\type_definitons_test.cpp" />
     <ClCompile Include="implementation_test.cpp" />
+    <ClCompile Include="method_test.cpp" />
     <ClCompile Include="processor_architecture_test.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
