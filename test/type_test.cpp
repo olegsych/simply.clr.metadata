@@ -174,16 +174,16 @@ namespace simply { namespace clr { namespace metadata
 		{
 			mdTypeDef token { 42 };
 			stub_metadata metadata;
-			type left { token, &metadata };
-			type right { token, &metadata };
+			const type left { token, &metadata };
+			const type right { token, &metadata };
 			assert::is_true(left == right);
 		}
 
 		TEST_METHOD(types_are_not_equal_if_they_have_different_tokens_in_same_metadata_scope)
 		{
 			stub_metadata metadata;
-			type left { 42, &metadata };
-			type right { 24, &metadata };
+			const type left { 42, &metadata };
+			const type right { 24, &metadata };
 			assert::is_false(left == right);
 		}
 
@@ -191,9 +191,9 @@ namespace simply { namespace clr { namespace metadata
 		{
 			mdTypeDef token { 42 };
 			stub_metadata left_metadata;
-			type left { token, &left_metadata };
+			const type left { token, &left_metadata };
 			stub_metadata right_metadata;
-			type right { token, &right_metadata };
+			const type right { token, &right_metadata };
 			assert::is_false(left == right);
 		}
 
