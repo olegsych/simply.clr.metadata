@@ -24,6 +24,7 @@
     <ClInclude Include="simply\clr\metadata\assembly_identity.h" />
     <ClInclude Include="simply\clr\metadata\hash_algorithm.h" />
     <ClInclude Include="simply\clr\metadata\implementation.h" />
+    <ClInclude Include="simply\clr\metadata\implementation\metadata_enumerable.h" />
     <ClInclude Include="simply\clr\metadata\implementation\metadata_enumerator.h" />
     <ClInclude Include="simply\clr\metadata\implementation\methods.h" />
     <ClInclude Include="simply\clr\metadata\implementation\types.h" />

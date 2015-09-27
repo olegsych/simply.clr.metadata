@@ -163,6 +163,7 @@
     <ClCompile Include="assembly_identity_test.cpp" />
     <ClCompile Include="assembly_test.cpp" />
     <ClCompile Include="hash_algorithm_test.cpp" />
+    <ClCompile Include="implementation\metadata_enumerable_test.cpp" />
     <ClCompile Include="implementation\metadata_enumerator_test.cpp" />
     <ClCompile Include="implementation\methods_test.cpp" />
     <ClCompile Include="implementation\types_test.cpp" />

@@ -30,12 +30,8 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
 	};
 
 	methods::methods(mdTypeDef type_token, com_ptr<IMetaDataImport2> metadata)
-		: type_token { type_token }, metadata { metadata }
+		: metadata_enumerable<method>(metadata), type_token { type_token }
 	{
-		if (!metadata.get())
-		{
-			throw invalid_argument { "metadata must not be a nullptr." };
-		}
 	}
 
 	unique_ptr<enumerator<method>> methods::create_enumerator()

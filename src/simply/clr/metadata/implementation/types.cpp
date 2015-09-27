@@ -30,12 +30,8 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
 	};
 
 	types::types(com_ptr<IMetaDataImport2> metadata)
-		: metadata { metadata }
+		: metadata_enumerable<type>(metadata)
 	{
-		if (!metadata.get())
-		{
-			throw invalid_argument { "metadata must not be a nullptr" };
-		}
 	}
 
 	unique_ptr<enumerator<type>> types::create_enumerator()

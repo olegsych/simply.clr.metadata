@@ -3,6 +3,7 @@
 #include <simply/assert.h>
 #include <simply/com.h>
 #include <simply/clr/metadata/implementation/methods.h>
+#include <simply/clr/metadata/implementation/metadata_enumerable.h>
 #include <simply/clr/metadata/implementation/metadata_enumerator.h>
 #include <stdexcept>
 #include "../stub_metadata.h"
@@ -20,16 +21,9 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
 			~element() {}
 		};
 	public:
-		TEST_METHOD(class_implements_enumerable_of_method_interface)
+		TEST_METHOD(class_inherits_pointer_management_from_metadata_enumerable)
 		{
-			assert::is_base_of<enumerable<method>, methods>();
-		}
-
-		TEST_METHOD(constructor_throws_invalid_argument_when_IMetaDataImport2_is_nullptr)
-		{
-			com_ptr<IMetaDataImport2> metadata;
-			auto e = assert::throws<invalid_argument>([&] { methods { 0, metadata }; });
-			assert::is_equal("metadata must not be a nullptr.", e->what());
+			assert::is_base_of<metadata_enumerable<method>, methods>();
 		}
 
 		TEST_METHOD(create_enumerator_returns_type_derived_from_metadata_enumerator_to_guarantee_resource_cleanup)
