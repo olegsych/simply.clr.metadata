@@ -5,6 +5,7 @@
 #pragma warning(default: 4091)
 #include <simply/com/com_ptr.h>
 #include "assembly.h"
+#include "method.h"
 
 namespace simply { namespace clr { namespace metadata 
 {
@@ -16,6 +17,7 @@ namespace simply { namespace clr { namespace metadata
 		type(mdTypeDef token, com_ptr<IMetaDataImport2> metadata);
 
 		assembly assembly() const;
+		range<method> methods() const;
         const std::wstring name() const;
 		unsigned int token() const;
 		bool operator==(const type& other) const;

@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include <algorithm>
 #include <CppUnitTest.h>
 #include <simply/assert.h>
 #include <simply/clr/metadata/type.h>
@@ -85,6 +86,35 @@ namespace simply { namespace clr { namespace metadata
 		}
 
         #pragma endregion
+
+		#pragma region methods
+		
+		TEST_METHOD(methods_returns_range_of_methods_defined_in_type)
+		{
+			mdTypeDef expected_type_token { 420 };
+			mdMethodDef expected_method_token { 42 };
+			metadata.enum_methods = [&](HCORENUM* enum_handle, mdTypeDef type_token, mdMethodDef* method_tokens, ULONG, ULONG* token_count)
+			{
+				if (*enum_handle == nullptr && type_token == expected_type_token)
+				{
+					*enum_handle = reinterpret_cast<HCORENUM>(-1);
+					*method_tokens = expected_method_token;
+					*token_count = 1;
+					return S_OK;
+				}
+
+				return S_FALSE;
+			};
+			const type sut { expected_type_token, &metadata };
+
+			range<method> actual = sut.methods();
+
+			method expected[] { method { expected_method_token, &metadata } };
+			assert::is_true(equal(begin(expected), end(expected), actual.begin()));
+			assert::is_equal(1, count_if(actual.begin(), actual.end(), [](method){ return true; }));
+		}
+
+		#pragma endregion
 
         #pragma region name
 

@@ -1,5 +1,6 @@
 #include "type.h"
 #include <simply/com.h>
+#include "implementation/methods.h"
 
 using namespace std;
 
@@ -20,6 +21,11 @@ namespace simply { namespace clr { namespace metadata
 		check(_metadata->QueryInterface(IID_IMetaDataAssemblyImport, assembly_metadata));
 		return metadata::assembly { assembly_metadata };
     }
+
+	range<method> type::methods() const
+	{
+		return range<method> { shared_ptr<enumerable<method>> { new implementation::methods { _token, _metadata } } };
+	}
 
     const wstring type::name() const
     {
