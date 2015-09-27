@@ -1,6 +1,6 @@
 #include "assembly.h"
 #include "implementation.h"
-#include "implementation/type_definitions.h"
+#include "implementation/types.h"
 
 namespace simply { namespace clr { namespace metadata
 {
@@ -66,7 +66,7 @@ namespace simply { namespace clr { namespace metadata
 	{
 		com_ptr<IMetaDataImport2> metadata;
 		check(_metadata->QueryInterface(IID_IMetaDataImport2, metadata));
-		return range<type> { shared_ptr<enumerable<type>> { new type_definitions { metadata } } };
+		return range<type> { shared_ptr<enumerable<type>> { new implementation::types { metadata } } };
 	}
 
 	bool assembly::operator==(const assembly& other) const

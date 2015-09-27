@@ -26,7 +26,7 @@
     <ClInclude Include="simply\clr\metadata\implementation.h" />
     <ClInclude Include="simply\clr\metadata\implementation\metadata_enumerator.h" />
     <ClInclude Include="simply\clr\metadata\implementation\methods.h" />
-    <ClInclude Include="simply\clr\metadata\implementation\type_definitions.h" />
+    <ClInclude Include="simply\clr\metadata\implementation\types.h" />
     <ClInclude Include="simply\clr\metadata\method.h" />
     <ClInclude Include="simply\clr\metadata\processor_architecture.h" />
     <ClInclude Include="simply\clr\metadata\type.h" />
@@ -36,7 +36,7 @@
     <ClCompile Include="simply\clr\metadata\assembly.cpp" />
     <ClCompile Include="simply\clr\metadata\implementation.cpp" />
     <ClCompile Include="simply\clr\metadata\implementation\methods.cpp" />
-    <ClCompile Include="simply\clr\metadata\implementation\type_definitions.cpp" />
+    <ClCompile Include="simply\clr\metadata\implementation\types.cpp" />
     <ClCompile Include="simply\clr\metadata\method.cpp" />
     <ClCompile Include="simply\clr\metadata\type.cpp" />
     <ClCompile Include="simply\clr\metadata\version.cpp" />

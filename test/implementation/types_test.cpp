@@ -2,7 +2,7 @@
 #include <CppUnitTest.h>
 #include <simply/assert.h>
 #include <simply/com.h>
-#include <simply/clr/metadata/implementation/type_definitions.h>
+#include <simply/clr/metadata/implementation/types.h>
 #include <simply/clr/metadata/implementation/metadata_enumerator.h>
 #include "../stub_metadata.h"
 
@@ -10,7 +10,7 @@ using namespace std;
 
 namespace simply { namespace clr { namespace metadata { namespace implementation
 {
-	TEST_CLASS(type_definitions_test)
+	TEST_CLASS(types_test)
 	{
 		union element
 		{
@@ -22,21 +22,21 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
 	public:
 		TEST_METHOD(class_implements_enumerable_of_type_interface)
 		{
-			assert::is_base_of<enumerable<type>, type_definitions>();
-			assert::is_concrete<type_definitions>();
+			assert::is_base_of<enumerable<type>, types>();
+			assert::is_concrete<types>();
 		}
 
 		TEST_METHOD(constructor_throws_invalid_argument_when_metadata_is_nullptr)
 		{
 			com_ptr<IMetaDataImport2> metadata;
-			auto e = assert::throws<invalid_argument>([&] { type_definitions { metadata }; });
+			auto e = assert::throws<invalid_argument>([&] { types { metadata }; });
 			assert::find("metadata must not be a nullptr", e->what());
 		}
 
 		TEST_METHOD(create_enumerator_returns_type_derived_from_metadata_enumerator_to_guarantee_resource_cleanup)
 		{
 			stub_metadata metadata;
-			type_definitions sut { com_ptr<IMetaDataImport2> { &metadata } };
+			types sut { com_ptr<IMetaDataImport2> { &metadata } };
 			unique_ptr<enumerator<type>> result = sut.create_enumerator();
 			assert::is_not_null(dynamic_cast<metadata_enumerator<type>*>(result.get()));
 		}
@@ -45,7 +45,7 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
 		{
 			stub_metadata metadata;
 			metadata.enum_type_defs = [](HCORENUM*, mdTypeDef*, ULONG, ULONG*) { return E_INVALIDARG; };
-			type_definitions sut { com_ptr<IMetaDataImport2> { &metadata } };
+			types sut { com_ptr<IMetaDataImport2> { &metadata } };
 			unique_ptr<enumerator<type>> enumerator = sut.create_enumerator();
 			element result;
 			assert::throws<com_error>([&] { enumerator->get_next(&result.type); });
@@ -66,7 +66,7 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
 
 				return S_FALSE;
 			};
-			type_definitions sut { com_ptr<IMetaDataImport2> { &metadata } };
+			types sut { com_ptr<IMetaDataImport2> { &metadata } };
 			unique_ptr<enumerator<type>> enumerator = sut.create_enumerator();
 
 			element actual;
@@ -100,7 +100,7 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
 				*item_count = 0;
 				return S_FALSE;
 			};
-			type_definitions sut { com_ptr<IMetaDataImport2> { &metadata } };
+			types sut { com_ptr<IMetaDataImport2> { &metadata } };
 			unique_ptr<enumerator<type>> enumerator = sut.create_enumerator();
 
 			element e;
@@ -119,7 +119,7 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
 				*item_count = 0;
 				return S_FALSE;
 			};
-			type_definitions sut { com_ptr<IMetaDataImport2> { &metadata } };
+			types sut { com_ptr<IMetaDataImport2> { &metadata } };
 			unique_ptr<enumerator<type>> enumerator = sut.create_enumerator();
 
 			element e;

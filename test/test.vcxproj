@@ -165,7 +165,7 @@
     <ClCompile Include="hash_algorithm_test.cpp" />
     <ClCompile Include="implementation\metadata_enumerator_test.cpp" />
     <ClCompile Include="implementation\methods_test.cpp" />
-    <ClCompile Include="implementation\type_definitons_test.cpp" />
+    <ClCompile Include="implementation\types_test.cpp" />
     <ClCompile Include="implementation_test.cpp" />
     <ClCompile Include="method_test.cpp" />
     <ClCompile Include="processor_architecture_test.cpp" />

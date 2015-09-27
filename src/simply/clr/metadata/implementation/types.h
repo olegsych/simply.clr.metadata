@@ -7,13 +7,12 @@
 
 namespace simply { namespace clr { namespace metadata { namespace implementation
 {
-	class type_definitions : public enumerable<type>
+	class types: public enumerable<type>
 	{
 	public:
-		type_definitions(com_ptr<IMetaDataImport2> metadata);
+		types(com_ptr<IMetaDataImport2> metadata);
 		std::unique_ptr<enumerator<type>> create_enumerator() override;
 	private:
-		const com_ptr<IMetaDataImport2> _metadata;
-		class enumerator;
+		const com_ptr<IMetaDataImport2> metadata;
 	};
 }}}}

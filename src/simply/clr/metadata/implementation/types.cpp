@@ -1,16 +1,15 @@
 #include <simply/com.h>
 #include "metadata_enumerator.h"
-#include "type_definitions.h"
+#include "types.h"
 
-using namespace simply;
 using namespace std;
 
 namespace simply { namespace clr { namespace metadata { namespace implementation
 {
-	class type_definitions::enumerator : public metadata_enumerator<type>
+	class type_enumerator : public metadata_enumerator<type>
 	{
 	public:
-		enumerator(simply::com_ptr<IMetaDataImport2> metadata)
+		type_enumerator(com_ptr<IMetaDataImport2> metadata)
 			: metadata_enumerator<type>(metadata)
 		{
 		}
@@ -30,8 +29,8 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
 		}
 	};
 
-	type_definitions::type_definitions(com_ptr<IMetaDataImport2> metadata)
-		: _metadata { metadata }
+	types::types(com_ptr<IMetaDataImport2> metadata)
+		: metadata { metadata }
 	{
 		if (!metadata.get())
 		{
@@ -39,8 +38,8 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
 		}
 	}
 
-	unique_ptr<enumerator<type>> type_definitions::create_enumerator()
+	unique_ptr<enumerator<type>> types::create_enumerator()
 	{
-		return unique_ptr<simply::enumerator<type>> { new type_definitions::enumerator { _metadata } };
+		return unique_ptr<enumerator<type>> { new type_enumerator { metadata } };
 	}
 }}}}
