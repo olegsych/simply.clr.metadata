@@ -58,6 +58,8 @@ namespace simply { namespace clr { namespace metadata
 		#pragma region IMetaDataImport
 
 		function<void(HCORENUM)> close_enum = [](HCORENUM) {};
+		function<HRESULT(HCORENUM*, mdTypeDef, mdMethodDef*, ULONG, ULONG*)> enum_methods =
+			[](HCORENUM*, mdTypeDef, mdMethodDef*, ULONG, ULONG*) { return S_FALSE; };
 		function<HRESULT(HCORENUM*, mdTypeDef*, ULONG, ULONG*)> enum_type_defs = 
 			[](HCORENUM*, mdTypeDef*, ULONG, ULONG*) { return S_FALSE; };
 		function<HRESULT(mdMethodDef, mdTypeDef*, LPWSTR, ULONG, ULONG*, DWORD*, PCCOR_SIGNATURE*, ULONG*, ULONG*, DWORD*)> get_method_props =
@@ -140,9 +142,9 @@ namespace simply { namespace clr { namespace metadata
             return E_NOTIMPL;
         }
 
-        HRESULT __stdcall EnumMethods(HCORENUM * phEnum, mdTypeDef cl, mdMethodDef rMethods[], ULONG cMax, ULONG * pcTokens) override
+        HRESULT __stdcall EnumMethods(HCORENUM* phEnum, mdTypeDef cl, mdMethodDef* rMethods, ULONG cMax, ULONG* pcTokens) override
         {
-            return E_NOTIMPL;
+			return enum_methods(phEnum, cl, rMethods, cMax, pcTokens);
         }
 
         HRESULT __stdcall EnumMethodsWithName(HCORENUM * phEnum, mdTypeDef cl, LPCWSTR szName, mdMethodDef rMethods[], ULONG cMax, ULONG * pcTokens) override
