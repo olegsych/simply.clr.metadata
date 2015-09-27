@@ -94,5 +94,36 @@ namespace simply { namespace clr { namespace metadata
 			const method sut { expected, &metadata };
 			assert::is_equal(expected, sut.token());
 		}
+
+		#pragma region operator==()
+
+		TEST_METHOD(methods_are_equal_if_they_have_identical_tokens_and_metadata_scopes)
+		{
+			mdMethodDef token { 42 };
+			stub_metadata metadata;
+			const method left { token, &metadata };
+			const method right { token, &metadata };
+			assert::is_true(left == right);
+		}
+
+		TEST_METHOD(methods_are_not_equal_if_they_have_different_tokens_in_same_metadata_scope)
+		{
+			stub_metadata metadata;
+			const method left { 42, &metadata };
+			const method right { 24, &metadata };
+			assert::is_false(left == right);
+		}
+
+		TEST_METHOD(types_are_not_equal_of_they_have_same_token_in_different_metadata_scopes)
+		{
+			mdMethodDef token { 42 };
+			stub_metadata left_metadata;
+			const method left { token, &left_metadata };
+			stub_metadata right_metadata;
+			const method right { token, &right_metadata };
+			assert::is_false(left == right);
+		}
+
+		#pragma endregion
 	};
 }}}

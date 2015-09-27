@@ -28,4 +28,10 @@ namespace simply { namespace clr { namespace metadata
 	{
 		return _token;
 	}
+
+	bool method::operator==(const method& other) const
+	{
+		return _token == other._token 
+			&& _metadata.get() == other._metadata.get();
+	}
 }}}

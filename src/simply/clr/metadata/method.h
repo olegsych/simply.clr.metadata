@@ -14,6 +14,7 @@ namespace simply { namespace clr { namespace metadata
 		method(mdMethodDef, com_ptr<IMetaDataImport2>);
 		const std::wstring name() const;
 		unsigned int token() const;
+		bool operator==(const method&) const;
 
 	private:
 		const mdMethodDef _token;
