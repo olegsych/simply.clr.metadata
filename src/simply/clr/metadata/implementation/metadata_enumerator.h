@@ -9,13 +9,13 @@
 
 namespace simply { namespace clr { namespace metadata { namespace implementation 
 {
-	template<typename element_t> class metadata_enumerator : public simply::enumerator<element_t>
+	template<typename element_t> class metadata_enumerator : public enumerator<element_t>
 	{
 	protected:
-		const simply::com_ptr<IMetaDataImport2> metadata;
+		const com_ptr<IMetaDataImport2> metadata;
 		HCORENUM enum_handle;
 	public:
-		metadata_enumerator(simply::com_ptr<IMetaDataImport2> metadata)
+		metadata_enumerator(com_ptr<IMetaDataImport2> metadata)
 			: metadata { metadata }, enum_handle { nullptr }
 		{
 			if (!metadata.get())
