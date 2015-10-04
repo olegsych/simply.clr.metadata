@@ -36,8 +36,8 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
 		{
 			const uint8_t expected { 0x42 };
 			uint8_t blob[] { expected };
-			signature sut { begin(blob), end(blob) };
-			const uint8_t actual = sut.read_byte();
+			signature signature { begin(blob), end(blob) };
+            const uint8_t actual = read_byte::value(signature);
 			assert::is_equal(expected, actual);
 		}
 
@@ -45,54 +45,45 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
 		{
 			const uint8_t expected { 0x42 };
 			uint8_t blob[] { expected - 1, expected };
-			signature sut { begin(blob), end(blob) };
-			sut.read_byte();
-			const uint8_t actual = sut.read_byte();
+			signature signature { begin(blob), end(blob) };
+            read_byte::value(signature);
+            const uint8_t actual = read_byte::value(signature);
 			assert::is_equal(expected, actual);
 		}
 
 		TEST_METHOD(read_byte_throws_out_of_range_when_end_of_signature_has_already_been_reached)
 		{
 			uint8_t blob[] { 0x42 };
-			signature sut { begin(blob), end(blob) };
-			sut.read_byte();
-			auto e = assert::throws<out_of_range>([&] { sut.read_byte(); });
+			signature signature { begin(blob), end(blob) };
+            read_byte::value(signature);
+            auto e = assert::throws<out_of_range>([&] { read_byte::value(signature); });
 			assert::is_equal("attempting to read past end of signature.", e->what());
 		}
 
 		TEST_METHOD(read_unsigned_integer_returns_x7F_stored_in_single_byte)
 		{
-			const uint32_t expected { 0x7F };
-			uint8_t blob[] { expected };
-			signature sut { begin(blob), end(blob) };
-			const uint32_t actual = sut.read_unsigned_integer();
-			assert::is_equal(expected, actual);
-		}
-
-		TEST_METHOD(read_unsigned_integer_throws_out_of_range_when_end_of_signature_has_already_been_reached)
-		{
-			uint8_t blob[] { 0x42 };
-			signature sut { begin(blob), end(blob) };
-			sut.read_byte();
-			auto e = assert::throws<out_of_range>([&] { sut.read_unsigned_integer(); });
-			assert::is_equal("attempting to read past end of signature.", e->what());
+            const uint32_t expected { 0x7F };
+            uint8_t blob[] { expected };
+            signature signature { begin(blob), end(blob) };
+            const uint32_t actual = read_unsigned_integer<>::value(signature);
+            assert::is_equal(expected, actual);
 		}
 
 		TEST_METHOD(read_unsigned_integer_returns_0x80_stored_in_two_bytes)
 		{
-			const uint32_t expected { 0x80 };
-			uint8_t blob[] { 0x80, expected };
-			signature sut { begin(blob), end(blob) };
-			const uint32_t actual = sut.read_unsigned_integer();
-			assert::is_equal(expected, actual);
+            const uint32_t expected { 0x80 };
+            uint8_t blob[] { 0x80, expected };
+            signature signature { begin(blob), end(blob) };
+            const uint32_t actual = read_unsigned_integer<>::value(signature);
+            assert::is_equal(expected, actual);
 		}
 
 		TEST_METHOD(read_unsigned_integer_returns_0x81_stored_in_two_bytes)
 		{
 			const uint32_t expected { 0x81 };
 			uint8_t blob[] { 0x80, expected };
-			signature sut { begin(blob), end(blob) };
-			const uint32_t actual = sut.read_unsigned_integer();
+			signature signature { begin(blob), end(blob) };
+			const uint32_t actual = read_unsigned_integer<>::value(signature);
 			assert::is_equal(expected, actual);
 		}
 
@@ -100,25 +91,17 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
 		{
 			const uint32_t expected { 0x3FFF };
 			uint8_t blob[] { 0xBF, 0xFF };
-			signature sut { begin(blob), end(blob) };
-			const uint32_t actual = sut.read_unsigned_integer();
+			signature signature { begin(blob), end(blob) };
+			const uint32_t actual = read_unsigned_integer<>::value(signature);
 			assert::is_equal(expected, actual);
-		}
-
-		TEST_METHOD(read_unsigned_integer_throws_out_of_range_when_end_of_signature_is_reached_when_reading_second_of_two_byte_value)
-		{
-			uint8_t blob[] { 0x80 };
-			signature sut { begin(blob), end(blob) };
-			auto e = assert::throws<out_of_range>([&] { sut.read_unsigned_integer(); });
-			assert::is_equal("attempting to read past end of signature.", e->what());
 		}
 
 		TEST_METHOD(read_unsigned_integer_returns_0x4000_stored_in_four_bytes)
 		{
 			const uint32_t expected { 0x4000 };
 			uint8_t blob[] { 0xC0, 0x00, 0x40, 0x00 };
-			signature sut { begin(blob), end(blob) };
-			const uint32_t actual = sut.read_unsigned_integer();
+			signature signature { begin(blob), end(blob) };
+			const uint32_t actual = read_unsigned_integer<>::value(signature);
 			assert::is_equal(expected, actual);
 		}
 
@@ -126,8 +109,8 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
 		{
 			const uint32_t expected { 0x4001 };
 			uint8_t blob[] { 0xC0, 0x00, 0x40, 0x01 };
-			signature sut { begin(blob), end(blob) };
-			const uint32_t actual = sut.read_unsigned_integer();
+			signature signature { begin(blob), end(blob) };
+			const uint32_t actual = read_unsigned_integer<>::value(signature);
 			assert::is_equal(expected, actual);
 		}
 
@@ -135,33 +118,9 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
 		{
 			const uint32_t expected { 0x1FFFFFFF };
 			uint8_t blob[] { 0xDF, 0xFF, 0xFF, 0xFF };
-			signature sut { begin(blob), end(blob) };
-			const uint32_t actual = sut.read_unsigned_integer();
+			signature signature { begin(blob), end(blob) };
+			const uint32_t actual = read_unsigned_integer<>::value(signature);
 			assert::is_equal(expected, actual);
-		}
-
-		TEST_METHOD(read_unsigned_integer_throws_out_of_range_when_end_of_signature_is_reached_when_reading_second_of_four_byte_value)
-		{
-			uint8_t blob[] { 0xC0 };
-			signature sut { begin(blob), end(blob) };
-			auto e = assert::throws<out_of_range>([&] { sut.read_unsigned_integer(); });
-			assert::is_equal("attempting to read past end of signature.", e->what());
-		}
-
-		TEST_METHOD(read_unsigned_integer_throws_out_of_range_when_end_of_signature_is_reached_when_reading_third_of_four_byte_value)
-		{
-			uint8_t blob[] { 0xC0, 0x00 };
-			signature sut { begin(blob), end(blob) };
-			auto e = assert::throws<out_of_range>([&] { sut.read_unsigned_integer(); });
-			assert::is_equal("attempting to read past end of signature.", e->what());
-		}
-
-		TEST_METHOD(read_unsigned_integer_throws_out_of_range_when_end_of_signature_is_reached_when_reading_fourth_of_four_byte_value)
-		{
-			uint8_t blob[] { 0xC0, 0x00, 0x00 };
-			signature sut { begin(blob), end(blob) };
-			auto e = assert::throws<out_of_range>([&] { sut.read_unsigned_integer(); });
-			assert::is_equal("attempting to read past end of signature.", e->what());
 		}
 	};
 }}}}
