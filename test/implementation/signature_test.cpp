@@ -10,6 +10,8 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
 {
 	TEST_CLASS(signature_test)
 	{
+        uint8_t any_blob[1] { 0x00 };
+        signature any_signature { begin(any_blob), end(any_blob) };
 	public:
 		TEST_METHOD(constructor_throws_ivalid_argument_when_begin_pointer_is_nullptr)
 		{
@@ -122,5 +124,48 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
 			const uint32_t actual = read_unsigned_integer<>::value(signature);
 			assert::is_equal(expected, actual);
 		}
+
+        TEST_METHOD(read_type_token_returns_TypeDef_token_extracted_from_unsigned_integer)
+        {
+            struct read_unsigned_integer
+            {
+                static uint32_t value(signature&) { return (0x42 << 2) | 0x00; }
+            };
+            const uint32_t expected = CorTokenType::mdtTypeDef | 0x42;
+            const uint32_t actual = read_type_token<read_unsigned_integer>::value(any_signature);
+            assert::is_equal(expected, actual);
+        }
+
+        TEST_METHOD(read_type_token_returns_TypeRef_token_extracted_from_unsigned_integer)
+        {
+            struct read_unsigned_integer
+            {
+                static uint32_t value(signature&) { return (0x42 << 2) | 0x01; }
+            };
+            const uint32_t expected { CorTokenType::mdtTypeRef | 0x42 };
+            const uint32_t actual = read_type_token<read_unsigned_integer>::value(any_signature);
+            assert::is_equal(expected, actual);
+        }
+
+        TEST_METHOD(read_type_token_returns_TypeSpec_token_extracted_from_unsigned_integer)
+        {
+            struct read_unsigned_integer
+            {
+                static uint32_t value(signature&) { return (0x42 << 2) | 0x02; };
+            };
+            const uint32_t expected { CorTokenType::mdtTypeSpec | 0x42 };
+            const uint32_t actual = read_type_token<read_unsigned_integer>::value(any_signature);
+            assert::is_equal(expected, actual);
+        }
+
+        TEST_METHOD(read_token_type_throws_logic_error_when_token_type_is_not_recognized_to_fail_fast)
+        {
+            struct read_unsigned_integer
+            {
+                static uint32_t value(signature&) { return (0x42 << 2) | 0x03; };
+            };
+            auto e = assert::throws<logic_error>([&] { read_type_token<read_unsigned_integer>::value(any_signature); });
+            assert::find("Unexpected token type", e->what());
+        }
 	};
 }}}}
