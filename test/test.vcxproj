@@ -181,7 +181,9 @@
     <ClCompile Include="version_test.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\src\src.vcxproj">
@@ -194,7 +196,7 @@
     <Import Project="..\packages\simply.com.0.1.47\build\native\simply.com.targets" Condition="Exists('..\packages\simply.com.0.1.47\build\native\simply.com.targets')" />
     <Import Project="..\packages\simply.collections.0.1.5\build\native\simply.collections.targets" Condition="Exists('..\packages\simply.collections.0.1.5\build\native\simply.collections.targets')" />
     <Import Project="..\packages\simply.assert.0.1.48\build\native\simply.assert.targets" Condition="Exists('..\packages\simply.assert.0.1.48\build\native\simply.assert.targets')" />
-    <Import Project="..\packages\simply.utility.0.1.46\build\native\simply.utility.targets" Condition="Exists('..\packages\simply.utility.0.1.46\build\native\simply.utility.targets')" />
+    <Import Project="..\packages\simply.utility.0.1.47\build\native\simply.utility.targets" Condition="Exists('..\packages\simply.utility.0.1.47\build\native\simply.utility.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -203,6 +205,6 @@
     <Error Condition="!Exists('..\packages\simply.com.0.1.47\build\native\simply.com.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\simply.com.0.1.47\build\native\simply.com.targets'))" />
     <Error Condition="!Exists('..\packages\simply.collections.0.1.5\build\native\simply.collections.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\simply.collections.0.1.5\build\native\simply.collections.targets'))" />
     <Error Condition="!Exists('..\packages\simply.assert.0.1.48\build\native\simply.assert.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\simply.assert.0.1.48\build\native\simply.assert.targets'))" />
-    <Error Condition="!Exists('..\packages\simply.utility.0.1.46\build\native\simply.utility.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\simply.utility.0.1.46\build\native\simply.utility.targets'))" />
+    <Error Condition="!Exists('..\packages\simply.utility.0.1.47\build\native\simply.utility.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\simply.utility.0.1.47\build\native\simply.utility.targets'))" />
   </Target>
 </Project>

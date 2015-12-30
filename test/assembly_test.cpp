@@ -8,11 +8,11 @@
 #include "stub_IMetaDataDispenserEx.h"
 #include "stub_metadata.h"
 
-using namespace simply::utility;
+using namespace simply;
 using namespace std;
 using namespace std::placeholders;
 
-namespace simply { namespace clr { namespace metadata 
+namespace simply { namespace clr { namespace metadata
 {
     TEST_CLASS(assembly_test)
     {
@@ -261,7 +261,7 @@ namespace simply { namespace clr { namespace metadata
 
 			range<type> actual = sut.types();
 
-			type expected[] { type { type_token, &metadata } };			
+			type expected[] { type { type_token, &metadata } };
 			assert::is_true(equal(begin(expected), end(expected), actual.begin()));
 			assert::is_equal(1, count_if(actual.begin(), actual.end(), [](type) { return true; }));
 		}
