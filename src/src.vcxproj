@@ -167,14 +167,14 @@
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="..\packages\simply.com.0.1.47\build\native\simply.com.targets" Condition="Exists('..\packages\simply.com.0.1.47\build\native\simply.com.targets')" />
-    <Import Project="..\packages\simply.collections.0.1.5\build\native\simply.collections.targets" Condition="Exists('..\packages\simply.collections.0.1.5\build\native\simply.collections.targets')" />
+    <Import Project="..\packages\simply.com.0.1.49\build\native\simply.com.targets" Condition="Exists('..\packages\simply.com.0.1.49\build\native\simply.com.targets')" />
+    <Import Project="..\packages\simply.collections.0.1.8\build\native\simply.collections.targets" Condition="Exists('..\packages\simply.collections.0.1.8\build\native\simply.collections.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\simply.com.0.1.47\build\native\simply.com.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\simply.com.0.1.47\build\native\simply.com.targets'))" />
-    <Error Condition="!Exists('..\packages\simply.collections.0.1.5\build\native\simply.collections.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\simply.collections.0.1.5\build\native\simply.collections.targets'))" />
+    <Error Condition="!Exists('..\packages\simply.com.0.1.49\build\native\simply.com.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\simply.com.0.1.49\build\native\simply.com.targets'))" />
+    <Error Condition="!Exists('..\packages\simply.collections.0.1.8\build\native\simply.collections.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\simply.collections.0.1.8\build\native\simply.collections.targets'))" />
   </Target>
 </Project>
