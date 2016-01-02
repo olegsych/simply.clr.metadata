@@ -11,28 +11,28 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
 	TEST_CLASS(signature_test)
 	{
         uint8_t any_blob[1] { 0x00 };
-        blob_cursor any_cursor { begin(any_blob), end(any_blob) };
+        signature any_cursor { begin(any_blob), end(any_blob) };
 	public:
-        #pragma region blob_cursor
+        #pragma region constructor
 
-		TEST_METHOD(blob_cursor_throws_ivalid_argument_when_begin_pointer_is_nullptr)
+		TEST_METHOD(constructor_throws_ivalid_argument_when_begin_pointer_is_nullptr)
 		{
 			uint8_t blob[42];
-			auto e = assert::throws<invalid_argument>([&] { blob_cursor { nullptr, end(blob) }; });
+			auto e = assert::throws<invalid_argument>([&] { signature { nullptr, end(blob) }; });
 			assert::is_equal("begin must not be a nullptr.", e->what());
 		}
 
-		TEST_METHOD(blob_cursor_throws_invalid_argument_when_end_pointer_is_nullptr)
+		TEST_METHOD(constructor_throws_invalid_argument_when_end_pointer_is_nullptr)
 		{
 			uint8_t blob[42];
-			auto e = assert::throws<invalid_argument>([&] { blob_cursor { begin(blob), nullptr }; });
+			auto e = assert::throws<invalid_argument>([&] { signature { begin(blob), nullptr }; });
 			assert::is_equal("end must not be a nullptr.", e->what());
 		}
 
-		TEST_METHOD(blob_cursor_throws_invalid_argument_when_begin_points_after_end)
+		TEST_METHOD(constructor_throws_invalid_argument_when_begin_points_after_end)
 		{
 			uint8_t blob[42];
-			auto e = assert::throws<invalid_argument>([&] { blob_cursor { end(blob), begin(blob) }; });
+			auto e = assert::throws<invalid_argument>([&] { signature { end(blob), begin(blob) }; });
 			assert::is_equal("begin must point before end.", e->what());
 		}
 
@@ -44,8 +44,8 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
 		{
 			const uint8_t expected { 0x42 };
 			uint8_t blob[] { expected };
-            blob_cursor signature { begin(blob), end(blob) };
-            const uint8_t actual = read_byte(signature);
+            signature sut { begin(blob), end(blob) };
+            const uint8_t actual = sut.read_byte();
 			assert::is_equal(expected, actual);
 		}
 
@@ -53,18 +53,18 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
 		{
 			const uint8_t expected { 0x42 };
 			uint8_t blob[] { expected - 1, expected };
-            blob_cursor signature { begin(blob), end(blob) };
-            read_byte(signature);
-            const uint8_t actual = read_byte(signature);
+            signature sut { begin(blob), end(blob) };
+            sut.read_byte();
+            const uint8_t actual = sut.read_byte();
 			assert::is_equal(expected, actual);
 		}
 
 		TEST_METHOD(read_byte_throws_out_of_range_when_end_of_signature_has_already_been_reached)
 		{
 			uint8_t blob[] { 0x42 };
-            blob_cursor signature { begin(blob), end(blob) };
-            read_byte(signature);
-            auto e = assert::throws<out_of_range>([&] { read_byte(signature); });
+            signature sut { begin(blob), end(blob) };
+            sut.read_byte();
+            auto e = assert::throws<out_of_range>([&] { sut.read_byte(); });
 			assert::is_equal("attempting to read past end of signature.", e->what());
 		}
 
@@ -76,8 +76,8 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
 		{
             const uint32_t expected { 0x7F };
             uint8_t blob[] { expected };
-            blob_cursor signature { begin(blob), end(blob) };
-            const uint32_t actual = read_unsigned_integer(signature);
+            signature sut { begin(blob), end(blob) };
+            const uint32_t actual = sut.read_unsigned_integer();
             assert::is_equal(expected, actual);
 		}
 
@@ -85,8 +85,8 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
 		{
             const uint32_t expected { 0x80 };
             uint8_t blob[] { 0x80, expected };
-            blob_cursor signature { begin(blob), end(blob) };
-            const uint32_t actual = read_unsigned_integer(signature);
+            signature sut { begin(blob), end(blob) };
+            const uint32_t actual = sut.read_unsigned_integer();
             assert::is_equal(expected, actual);
 		}
 
@@ -94,8 +94,8 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
 		{
 			const uint32_t expected { 0x81 };
 			uint8_t blob[] { 0x80, expected };
-            blob_cursor signature { begin(blob), end(blob) };
-			const uint32_t actual = read_unsigned_integer(signature);
+            signature sut { begin(blob), end(blob) };
+			const uint32_t actual = sut.read_unsigned_integer();
 			assert::is_equal(expected, actual);
 		}
 
@@ -103,8 +103,8 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
 		{
 			const uint32_t expected { 0x3FFF };
 			uint8_t blob[] { 0xBF, 0xFF };
-            blob_cursor signature { begin(blob), end(blob) };
-			const uint32_t actual = read_unsigned_integer(signature);
+            signature sut { begin(blob), end(blob) };
+			const uint32_t actual = sut.read_unsigned_integer();
 			assert::is_equal(expected, actual);
 		}
 
@@ -112,8 +112,8 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
 		{
 			const uint32_t expected { 0x4000 };
 			uint8_t blob[] { 0xC0, 0x00, 0x40, 0x00 };
-            blob_cursor signature { begin(blob), end(blob) };
-			const uint32_t actual = read_unsigned_integer(signature);
+            signature sut { begin(blob), end(blob) };
+			const uint32_t actual = sut.read_unsigned_integer();
 			assert::is_equal(expected, actual);
 		}
 
@@ -121,8 +121,8 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
 		{
 			const uint32_t expected { 0x4001 };
 			uint8_t blob[] { 0xC0, 0x00, 0x40, 0x01 };
-            blob_cursor signature { begin(blob), end(blob) };
-			const uint32_t actual = read_unsigned_integer(signature);
+            signature sut { begin(blob), end(blob) };
+			const uint32_t actual = sut.read_unsigned_integer();
 			assert::is_equal(expected, actual);
 		}
 
@@ -130,8 +130,8 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
 		{
 			const uint32_t expected { 0x1FFFFFFF };
 			uint8_t blob[] { 0xDF, 0xFF, 0xFF, 0xFF };
-            blob_cursor signature { begin(blob), end(blob) };
-			const uint32_t actual = read_unsigned_integer(signature);
+            signature sut { begin(blob), end(blob) };
+			const uint32_t actual = sut.read_unsigned_integer();
 			assert::is_equal(expected, actual);
 		}
 
@@ -141,9 +141,9 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
         {
             const unsigned type_index = 5;
             uint8_t blob[] { (type_index << 2) | 0x00 };
-            blob_cursor signature { begin(blob), end(blob) };
+            signature sut { begin(blob), end(blob) };
             const uint32_t expected = CorTokenType::mdtTypeDef | type_index;
-            const uint32_t actual = read_type_token(signature);
+            const uint32_t actual = sut.read_type_token();
             assert::is_equal(expected, actual);
         }
 
@@ -151,9 +151,9 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
         {
             const unsigned type_index = 5;
             uint8_t blob[] { (type_index << 2) | 0x01 };
-            blob_cursor signature { begin(blob), end(blob) };
+            signature sut { begin(blob), end(blob) };
             const uint32_t expected { CorTokenType::mdtTypeRef | type_index };
-            const uint32_t actual = read_type_token(signature);
+            const uint32_t actual = sut.read_type_token();
             assert::is_equal(expected, actual);
         }
 
@@ -161,9 +161,9 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
         {
             const unsigned type_index = 5;
             uint8_t blob[] { (type_index << 2) | 0x02 };
-            blob_cursor signature { begin(blob), end(blob) };
+            signature sut { begin(blob), end(blob) };
             const uint32_t expected { CorTokenType::mdtTypeSpec | type_index };
-            const uint32_t actual = read_type_token(signature);
+            const uint32_t actual = sut.read_type_token();
             assert::is_equal(expected, actual);
         }
 
@@ -171,8 +171,8 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
         {
             const unsigned type_index = 5;
             uint8_t blob[] { (type_index << 2) | 0x03 };
-            blob_cursor signature { begin(blob), end(blob) };
-            auto e = assert::throws<logic_error>([&] { read_type_token(signature); });
+            signature sut { begin(blob), end(blob) };
+            auto e = assert::throws<logic_error>([&] { sut.read_type_token(); });
             assert::find("Unexpected token type", e->what());
         }
 	};
