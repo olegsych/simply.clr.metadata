@@ -5,7 +5,7 @@ using namespace std;
 
 namespace simply { namespace clr { namespace metadata { namespace implementation
 {
-	signature::signature(const void* begin, const void* end)
+    blob_cursor::blob_cursor(const void* begin, const void* end)
 		: current { reinterpret_cast<const uint8_t*>(begin) }, end { reinterpret_cast<const uint8_t*>(end) }
 	{
 		if (!begin)
@@ -24,11 +24,11 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
 		}
 	}
 
-	uint8_t read_byte::value(signature& signature)
+	uint8_t read_byte::value(blob_cursor& blob)
 	{
-		if (signature.current < signature.end)
+		if (blob.current < blob.end)
 		{
-			return *signature.current++;
+			return *blob.current++;
 		}
 
 		throw out_of_range { "attempting to read past end of signature." };
