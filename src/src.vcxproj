@@ -29,7 +29,10 @@
     <ClInclude Include="simply\clr\metadata\implementation\metadata_enumerator.h" />
     <ClInclude Include="simply\clr\metadata\implementation\methods.h" />
     <ClInclude Include="simply\clr\metadata\implementation\signature.h" />
+    <ClInclude Include="simply\clr\metadata\implementation\system_type.h" />
+    <ClInclude Include="simply\clr\metadata\implementation\system_type_signature.h" />
     <ClInclude Include="simply\clr\metadata\implementation\types.h" />
+    <ClInclude Include="simply\clr\metadata\implementation\type_signature.h" />
     <ClInclude Include="simply\clr\metadata\method.h" />
     <ClInclude Include="simply\clr\metadata\processor_architecture.h" />
     <ClInclude Include="simply\clr\metadata\type.h" />
