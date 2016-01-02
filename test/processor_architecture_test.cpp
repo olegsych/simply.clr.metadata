@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include <CppUnitTest.h>
 #include <simply/assert.h>
 #include <simply/clr/metadata/processor_architecture.h>

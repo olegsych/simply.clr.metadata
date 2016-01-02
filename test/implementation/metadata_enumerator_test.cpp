@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include <CppUnitTest.h>
 #include <simply/assert.h>
 #include <simply/com.h>
@@ -62,10 +61,10 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
 			stub_metadata metadata;
 			metadata.close_enum = [&](HCORENUM e) { actual_value = e; };
 			testable_metadata_enumerator sut { com_ptr<IMetaDataImport2> { &metadata} };
-			sut.enum_handle(expected_value);		
+			sut.enum_handle(expected_value);
 
 			sut.~testable_metadata_enumerator();
-			
+
 			assert::is_equal(expected_value, actual_value);
 		}
 

@@ -1,13 +1,13 @@
-#include "stdafx.h"
 #include <algorithm>
 #include <CppUnitTest.h>
 #include <simply/assert.h>
 #include <simply/clr/metadata/type.h>
+#include <simply/com.h>
 #include "stub_metadata.h"
 
 using namespace std;
 
-namespace simply { namespace clr { namespace metadata 
+namespace simply { namespace clr { namespace metadata
 {
     TEST_CLASS(type_test)
     {
@@ -53,7 +53,7 @@ namespace simply { namespace clr { namespace metadata
             type sut { 0, &metadata };
 
 			assembly result = sut.assembly();
-			
+
 			assert::is_equal(expected, result.token());
         }
 
@@ -88,7 +88,7 @@ namespace simply { namespace clr { namespace metadata
         #pragma endregion
 
 		#pragma region methods
-		
+
 		TEST_METHOD(methods_returns_range_of_methods_defined_in_type)
 		{
 			mdTypeDef expected_type_token { 420 };

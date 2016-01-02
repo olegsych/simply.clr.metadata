@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include <CppUnitTest.h>
 #include <simply/assert.h>
 #include <simply/clr/metadata/version.h>
@@ -130,7 +129,7 @@ namespace simply { namespace clr { namespace metadata
         TEST_METHOD(stream_insertion_operator_writes_version_to_given_stream)
         {
             ostringstream stream;
-            
+
             stream << version { 1, 2, 3, 4 };
 
             assert::is_equal("1.2.3.4", stream.str());

@@ -1,7 +1,8 @@
-#include "stdafx.h"
+#include <CppUnitTest.h>
+#include <simply/assert.h>
 #include <simply/clr/metadata/implementation.h>
 
-namespace simply { namespace clr { namespace metadata { namespace implementation 
+namespace simply { namespace clr { namespace metadata { namespace implementation
 {
     TEST_CLASS(implementation_test)
     {

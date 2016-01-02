@@ -1,14 +1,14 @@
-#include "stdafx.h"
 #include <stdexcept>
 #include <CppUnitTest.h>
 #include <simply/assert.h>
 #include <simply/clr/metadata/method.h>
+#include <simply/com.h>
 #include <utility>
 #include "stub_metadata.h"
 
 using namespace std;
 
-namespace simply { namespace clr { namespace metadata 
+namespace simply { namespace clr { namespace metadata
 {
     TEST_CLASS(method_test)
     {
@@ -25,9 +25,9 @@ namespace simply { namespace clr { namespace metadata
 		{
 			com_ptr<IMetaDataImport2> pointer { &metadata };
 			bool reference_added { false };
-			metadata.add_ref = [&] 
-			{ 
-				reference_added = true; 
+			metadata.add_ref = [&]
+			{
+				reference_added = true;
 				return 2;
 			};
 
@@ -46,7 +46,7 @@ namespace simply { namespace clr { namespace metadata
 				released = true;
 				return 1;
 			};
-			
+
 			sut.~method();
 
 			assert::is_true(released);
