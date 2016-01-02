@@ -1,12 +1,10 @@
 #pragma once
 
-#pragma warning(disable: 4091)
-#include <cor.h>
-#pragma warning(default: 4091)
 #include <string>
 #include <simply/com/com_ptr.h>
+#include "implementation/interop.h"
 
-namespace simply { namespace clr { namespace metadata 
+namespace simply { namespace clr { namespace metadata
 {
 	class method
 	{

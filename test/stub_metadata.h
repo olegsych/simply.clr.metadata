@@ -1,13 +1,11 @@
 #pragma once
 
-#pragma warning(disable: 4091)
-#include <cor.h>
-#pragma warning(default: 4091)
 #include <functional>
+#include <simply/clr/metadata/implementation/interop.h>
 
 using namespace std;
 
-namespace simply { namespace clr { namespace metadata 
+namespace simply { namespace clr { namespace metadata
 {
 	/// <summary>
 	/// Stub emulating RegMeta implementation in CLR.
@@ -20,8 +18,8 @@ namespace simply { namespace clr { namespace metadata
 
 		function<ULONG(void)> add_ref = [] { return 2; };
 		function<ULONG(void)> release = [] { return 1; };
-		function<HRESULT(const GUID&, void**)> query_interface = [&](const GUID& interface_id, void** object) 
-		{ 
+		function<HRESULT(const GUID&, void**)> query_interface = [&](const GUID& interface_id, void** object)
+		{
 			if (interface_id == IID_IMetaDataAssemblyImport)
 			{
 				*object = static_cast<IMetaDataAssemblyImport*>(this);
@@ -35,7 +33,7 @@ namespace simply { namespace clr { namespace metadata
 				return S_OK;
 			}
 
-			return E_NOINTERFACE; 
+			return E_NOINTERFACE;
 		};
 
         ULONG __stdcall AddRef(void) override
@@ -60,7 +58,7 @@ namespace simply { namespace clr { namespace metadata
 		function<void(HCORENUM)> close_enum = [](HCORENUM) {};
 		function<HRESULT(HCORENUM*, mdTypeDef, mdMethodDef*, ULONG, ULONG*)> enum_methods =
 			[](HCORENUM*, mdTypeDef, mdMethodDef*, ULONG, ULONG*) { return S_FALSE; };
-		function<HRESULT(HCORENUM*, mdTypeDef*, ULONG, ULONG*)> enum_type_defs = 
+		function<HRESULT(HCORENUM*, mdTypeDef*, ULONG, ULONG*)> enum_type_defs =
 			[](HCORENUM*, mdTypeDef*, ULONG, ULONG*) { return S_FALSE; };
 		function<HRESULT(mdMethodDef, mdTypeDef*, LPWSTR, ULONG, ULONG*, DWORD*, PCCOR_SIGNATURE*, ULONG*, ULONG*, DWORD*)> get_method_props =
 			[](mdMethodDef, mdTypeDef*, LPWSTR, ULONG, ULONG*, DWORD*, PCCOR_SIGNATURE*, ULONG*, ULONG*, DWORD*) { return S_OK; };
@@ -390,32 +388,32 @@ namespace simply { namespace clr { namespace metadata
         {
             return E_NOTIMPL;
         }
-        
+
         HRESULT __stdcall GetMethodSpecProps(mdMethodSpec mi, mdToken * tkParent, PCCOR_SIGNATURE * ppvSigBlob, ULONG * pcbSigBlob) override
         {
             return E_NOTIMPL;
         }
-        
+
         HRESULT __stdcall EnumGenericParamConstraints(HCORENUM * phEnum, mdGenericParam tk, mdGenericParamConstraint rGenericParamConstraints[], ULONG cMax, ULONG * pcGenericParamConstraints) override
         {
             return E_NOTIMPL;
         }
-        
+
         HRESULT __stdcall GetGenericParamConstraintProps(mdGenericParamConstraint gpc, mdGenericParam * ptGenericParam, mdToken * ptkConstraintType) override
         {
             return E_NOTIMPL;
         }
-        
+
         HRESULT __stdcall GetPEKind(DWORD * pdwPEKind, DWORD * pdwMAchine) override
         {
             return E_NOTIMPL;
         }
-        
+
         HRESULT __stdcall GetVersionString(LPWSTR pwzBuf, DWORD ccBufSize, DWORD * pccBufSize) override
         {
             return E_NOTIMPL;
         }
-        
+
         HRESULT __stdcall EnumMethodSpecs(HCORENUM * phEnum, mdToken tk, mdMethodSpec rMethodSpecs[], ULONG cMax, ULONG * pcMethodSpecs) override
         {
             return E_NOTIMPL;

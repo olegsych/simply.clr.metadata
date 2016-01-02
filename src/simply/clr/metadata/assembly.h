@@ -1,14 +1,12 @@
 #pragma once
 
-#pragma warning(disable: 4091)
-#include <cor.h>
-#pragma warning(default: 4091)
 #include <simply/com/com_ptr.h>
 #include <simply/collections/range.h>
 #include "assembly_identity.h"
+#include "implementation/interop.h"
 #include "type.h"
 
-namespace simply { namespace clr { namespace metadata 
+namespace simply { namespace clr { namespace metadata
 {
 	class type;
 

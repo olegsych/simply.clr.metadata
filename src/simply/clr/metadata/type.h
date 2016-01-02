@@ -1,13 +1,11 @@
 #pragma once
 
-#pragma warning(disable: 4091)
-#include <cor.h>
-#pragma warning(default: 4091)
 #include <simply/com/com_ptr.h>
 #include "assembly.h"
+#include "implementation/interop.h"
 #include "method.h"
 
-namespace simply { namespace clr { namespace metadata 
+namespace simply { namespace clr { namespace metadata
 {
 	class assembly;
 
@@ -25,7 +23,7 @@ namespace simply { namespace clr { namespace metadata
     private:
         const mdTypeDef _token;
         const com_ptr<IMetaDataImport2> _metadata;
-        
+
 		friend class type_test;
     };
 }}}
