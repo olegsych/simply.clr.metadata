@@ -83,22 +83,22 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
         CorElementType element_type = static_cast<CorElementType>(read_byte());
         switch (element_type)
         {
-            case ELEMENT_TYPE_BOOLEAN: make_builtin_type_signature(builtin_type::Boolean);
-            case ELEMENT_TYPE_CHAR:    make_builtin_type_signature(builtin_type::Char);
-            case ELEMENT_TYPE_I:       make_builtin_type_signature(builtin_type::IntPtr);
-            case ELEMENT_TYPE_U:       make_builtin_type_signature(builtin_type::UIntPtr);
-            case ELEMENT_TYPE_I1:      make_builtin_type_signature(builtin_type::SByte);
-            case ELEMENT_TYPE_U1:      make_builtin_type_signature(builtin_type::Byte);
-            case ELEMENT_TYPE_I2:      make_builtin_type_signature(builtin_type::Int16);
-            case ELEMENT_TYPE_U2:      make_builtin_type_signature(builtin_type::UInt16);
-            case ELEMENT_TYPE_I4:      make_builtin_type_signature(builtin_type::Int32);
-            case ELEMENT_TYPE_U4:      make_builtin_type_signature(builtin_type::UInt32);
-            case ELEMENT_TYPE_I8:      make_builtin_type_signature(builtin_type::Int64);
-            case ELEMENT_TYPE_U8:      make_builtin_type_signature(builtin_type::UInt64);
-            case ELEMENT_TYPE_R4:      make_builtin_type_signature(builtin_type::Single);
-            case ELEMENT_TYPE_R8:      make_builtin_type_signature(builtin_type::Double);
-            case ELEMENT_TYPE_STRING:  make_builtin_type_signature(builtin_type::String);
-            case ELEMENT_TYPE_OBJECT:  make_builtin_type_signature(builtin_type::Object);
+            case ELEMENT_TYPE_BOOLEAN: return make_builtin_type_signature(builtin_type::Boolean);
+            case ELEMENT_TYPE_CHAR:    return make_builtin_type_signature(builtin_type::Char);
+            case ELEMENT_TYPE_I:       return make_builtin_type_signature(builtin_type::IntPtr);
+            case ELEMENT_TYPE_U:       return make_builtin_type_signature(builtin_type::UIntPtr);
+            case ELEMENT_TYPE_I1:      return make_builtin_type_signature(builtin_type::SByte);
+            case ELEMENT_TYPE_U1:      return make_builtin_type_signature(builtin_type::Byte);
+            case ELEMENT_TYPE_I2:      return make_builtin_type_signature(builtin_type::Int16);
+            case ELEMENT_TYPE_U2:      return make_builtin_type_signature(builtin_type::UInt16);
+            case ELEMENT_TYPE_I4:      return make_builtin_type_signature(builtin_type::Int32);
+            case ELEMENT_TYPE_U4:      return make_builtin_type_signature(builtin_type::UInt32);
+            case ELEMENT_TYPE_I8:      return make_builtin_type_signature(builtin_type::Int64);
+            case ELEMENT_TYPE_U8:      return make_builtin_type_signature(builtin_type::UInt64);
+            case ELEMENT_TYPE_R4:      return make_builtin_type_signature(builtin_type::Single);
+            case ELEMENT_TYPE_R8:      return make_builtin_type_signature(builtin_type::Double);
+            case ELEMENT_TYPE_STRING:  return make_builtin_type_signature(builtin_type::String);
+            case ELEMENT_TYPE_OBJECT:  return make_builtin_type_signature(builtin_type::Object);
             default:
                 ostringstream message;
                 message << "Unexpected element type: 0x" << hex << element_type;
