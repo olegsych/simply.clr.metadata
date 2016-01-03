@@ -5,7 +5,7 @@
 
 namespace simply { namespace clr { namespace metadata { namespace implementation
 {
-    class builtin_type_signature : type_signature
+    class builtin_type_signature : public type_signature
     {
         const builtin_type _builtin_type;
     public:

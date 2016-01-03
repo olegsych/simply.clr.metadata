@@ -1,8 +1,10 @@
 #include <CppUnitTest.h>
 #include <cstdint>
 #include <simply/assert.h>
+#include <simply/clr/metadata/implementation/builtin_type_signature.h>
 #include <simply/clr/metadata/implementation/interop.h>
 #include <simply/clr/metadata/implementation/signature.h>
+#include <simply/clr/metadata/implementation/type_signature.h>
 
 using namespace std;
 
@@ -12,6 +14,16 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
 	{
         uint8_t any_blob[1] { 0x00 };
         signature any_cursor { begin(any_blob), end(any_blob) };
+
+        void read_type_signature_returns_builtin_type_signature_when_blob_contains_it(CorElementType element_type, builtin_type builtin_type)
+        {
+            uint8_t blob[] { static_cast<uint8_t>(element_type) };
+            signature sut { begin(blob), end(blob) };
+
+            unique_ptr<type_signature> actual { sut.read_type_signature() };
+
+            assert::is_equal(builtin_type, dynamic_cast<builtin_type_signature*>(actual.get())->builtin_type());
+        }
 	public:
         #pragma region constructor
 
@@ -137,6 +149,8 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
 
         #pragma endregion
 
+        #pragma region read_type_token
+
         TEST_METHOD(read_type_token_returns_TypeDef_token_extracted_from_unsigned_integer)
         {
             const unsigned type_index = 5;
@@ -175,5 +189,43 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
             auto e = assert::throws<logic_error>([&] { sut.read_type_token(); });
             assert::find("Unexpected token type", e->what());
         }
+
+        #pragma endregion
+
+        #pragma region read_type_signature
+
+        TEST_METHOD(read_type_signature_returns_builtin_type_signature_when_blob_contains_it)
+        {
+            read_type_signature_returns_builtin_type_signature_when_blob_contains_it(CorElementType::ELEMENT_TYPE_BOOLEAN, builtin_type::Boolean);
+            read_type_signature_returns_builtin_type_signature_when_blob_contains_it(CorElementType::ELEMENT_TYPE_CHAR, builtin_type::Char);
+            read_type_signature_returns_builtin_type_signature_when_blob_contains_it(CorElementType::ELEMENT_TYPE_I, builtin_type::IntPtr);
+            read_type_signature_returns_builtin_type_signature_when_blob_contains_it(CorElementType::ELEMENT_TYPE_U, builtin_type::UIntPtr);
+            read_type_signature_returns_builtin_type_signature_when_blob_contains_it(CorElementType::ELEMENT_TYPE_I1, builtin_type::SByte);
+            read_type_signature_returns_builtin_type_signature_when_blob_contains_it(CorElementType::ELEMENT_TYPE_U1, builtin_type::Byte);
+            read_type_signature_returns_builtin_type_signature_when_blob_contains_it(CorElementType::ELEMENT_TYPE_I2, builtin_type::Int16);
+            read_type_signature_returns_builtin_type_signature_when_blob_contains_it(CorElementType::ELEMENT_TYPE_U2, builtin_type::UInt16);
+            read_type_signature_returns_builtin_type_signature_when_blob_contains_it(CorElementType::ELEMENT_TYPE_I4, builtin_type::Int32);
+            read_type_signature_returns_builtin_type_signature_when_blob_contains_it(CorElementType::ELEMENT_TYPE_U4, builtin_type::UInt32);
+            read_type_signature_returns_builtin_type_signature_when_blob_contains_it(CorElementType::ELEMENT_TYPE_I8, builtin_type::Int64);
+            read_type_signature_returns_builtin_type_signature_when_blob_contains_it(CorElementType::ELEMENT_TYPE_U8, builtin_type::UInt64);
+            read_type_signature_returns_builtin_type_signature_when_blob_contains_it(CorElementType::ELEMENT_TYPE_R4, builtin_type::Single);
+            read_type_signature_returns_builtin_type_signature_when_blob_contains_it(CorElementType::ELEMENT_TYPE_R8, builtin_type::Double);
+            read_type_signature_returns_builtin_type_signature_when_blob_contains_it(CorElementType::ELEMENT_TYPE_R8, builtin_type::Double);
+            read_type_signature_returns_builtin_type_signature_when_blob_contains_it(CorElementType::ELEMENT_TYPE_OBJECT, builtin_type::Object);
+            read_type_signature_returns_builtin_type_signature_when_blob_contains_it(CorElementType::ELEMENT_TYPE_STRING, builtin_type::String);
+        }
+
+        TEST_METHOD(read_type_signature_throws_logic_error_when_element_type_is_not_supported)
+        {
+            uint8_t blob[] { 0xFF };
+            signature sut { begin(blob), end(blob) };
+
+            auto e = assert::throws<logic_error>([&] { sut.read_type_signature(); });
+
+            assert::find("Unexpected element type", e->what());
+            assert::find("ff", e->what());
+        }
+
+        #pragma endregion
 	};
 }}}}
