@@ -82,7 +82,7 @@
     <ClCompile Include="implementation\signature_test.cpp" />
     <ClCompile Include="implementation\system_type_test.cpp" />
     <ClCompile Include="implementation\types_test.cpp" />
-    <ClCompile Include="implementation\system_type_signature_test.cpp" />
+    <ClCompile Include="implementation\builtin_type_signature_test.cpp" />
     <ClCompile Include="implementation_test.cpp" />
     <ClCompile Include="method_test.cpp" />
     <ClCompile Include="processor_architecture_test.cpp" />
