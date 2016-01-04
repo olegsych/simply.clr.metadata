@@ -37,6 +37,7 @@
     <ClInclude Include="simply\clr\metadata\implementation\type_signature.h" />
     <ClInclude Include="simply\clr\metadata\method.h" />
     <ClInclude Include="simply\clr\metadata\processor_architecture.h" />
+    <ClInclude Include="simply\clr\metadata\token.h" />
     <ClInclude Include="simply\clr\metadata\type.h" />
     <ClInclude Include="simply\clr\metadata\version.h" />
   </ItemGroup>
@@ -47,6 +48,7 @@
     <ClCompile Include="simply\clr\metadata\implementation\signature.cpp" />
     <ClCompile Include="simply\clr\metadata\implementation\types.cpp" />
     <ClCompile Include="simply\clr\metadata\method.cpp" />
+    <ClCompile Include="simply\clr\metadata\token.cpp" />
     <ClCompile Include="simply\clr\metadata\type.cpp" />
     <ClCompile Include="simply\clr\metadata\version.cpp" />
   </ItemGroup>

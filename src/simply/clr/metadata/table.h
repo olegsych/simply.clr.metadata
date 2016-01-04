@@ -6,7 +6,7 @@
 namespace simply { namespace clr { namespace metadata
 {
     /// <summary>
-    /// Defines elements that represent CLR metadata tables; their values are used as top byte in metadata tokens.
+    /// A CLR metadata table; used as top byte in metadata tokens.
     /// </summary>
     enum class table : uint8_t
     {
