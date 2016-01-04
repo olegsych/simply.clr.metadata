@@ -23,6 +23,7 @@
     <ClInclude Include="simply\clr\metadata\assembly.h" />
     <ClInclude Include="simply\clr\metadata\assembly_identity.h" />
     <ClInclude Include="simply\clr\metadata\hash_algorithm.h" />
+    <ClInclude Include="simply\clr\metadata\table.h" />
     <ClInclude Include="simply\clr\metadata\implementation.h" />
     <ClInclude Include="simply\clr\metadata\implementation\class_type_signature.h" />
     <ClInclude Include="simply\clr\metadata\implementation\interop.h" />
