@@ -156,9 +156,9 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
             const unsigned type_index = 5;
             uint8_t blob[] { (type_index << 2) | 0x00 };
             signature sut { begin(blob), end(blob) };
-            const uint32_t expected = CorTokenType::mdtTypeDef | type_index;
-            const uint32_t actual = sut.read_type_token();
-            assert::is_equal(expected, actual);
+            const token actual = sut.read_type_token();
+            assert::is_equal(table::type, actual.table());
+            assert::is_equal(type_index, actual.index());
         }
 
         TEST_METHOD(read_type_token_returns_TypeRef_token_extracted_from_unsigned_integer)
@@ -166,9 +166,9 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
             const unsigned type_index = 5;
             uint8_t blob[] { (type_index << 2) | 0x01 };
             signature sut { begin(blob), end(blob) };
-            const uint32_t expected { CorTokenType::mdtTypeRef | type_index };
-            const uint32_t actual = sut.read_type_token();
-            assert::is_equal(expected, actual);
+            const token actual = sut.read_type_token();
+            assert::is_equal(table::type_reference, actual.table());
+            assert::is_equal(type_index, actual.index());
         }
 
         TEST_METHOD(read_type_token_returns_TypeSpec_token_extracted_from_unsigned_integer)
@@ -176,9 +176,9 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
             const unsigned type_index = 5;
             uint8_t blob[] { (type_index << 2) | 0x02 };
             signature sut { begin(blob), end(blob) };
-            const uint32_t expected { CorTokenType::mdtTypeSpec | type_index };
-            const uint32_t actual = sut.read_type_token();
-            assert::is_equal(expected, actual);
+            const token actual = sut.read_type_token();
+            assert::is_equal(table::type_specification, actual.table());
+            assert::is_equal(type_index, actual.index());
         }
 
         TEST_METHOD(read_token_type_throws_logic_error_when_token_type_is_not_recognized_to_fail_fast)

@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <memory>
+#include "../token.h"
 #include "type_signature.h"
 
 namespace simply { namespace clr { namespace metadata { namespace implementation
@@ -15,7 +16,7 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
 
         std::uint8_t read_byte();
         std::uint32_t read_unsigned_integer();
-        std::uint32_t read_type_token();
+        token read_type_token();
         std::unique_ptr<type_signature> read_type_signature();
     };
 }}}}

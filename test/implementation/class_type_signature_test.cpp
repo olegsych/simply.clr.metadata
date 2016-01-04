@@ -18,14 +18,17 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
             assert::is_base_of<type_signature, class_type_signature>();
         }
 
-        TEST_METHOD(type_token_returns_type_token_parsed_from_blob)
+        TEST_METHOD(token_returns_type_token_parsed_from_blob)
         {
             const unsigned type_index { 5 };
             uint8_t blob[] { (type_index << 2) | 0x01 };
             signature signature { begin(blob), end(blob) };
             class_type_signature sut { signature };
-            uint32_t expected { CorTokenType::mdtTypeRef | type_index };
-            assert::is_equal(expected, sut.type_token());
+
+            const token actual { sut.token() };
+
+            assert::is_equal(table::type_reference, actual.table());
+            assert::is_equal(type_index, actual.index());
         }
     };
 }}}}
