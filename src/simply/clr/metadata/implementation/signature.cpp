@@ -3,6 +3,7 @@
 #include <stdexcept>
 #include "interop.h"
 #include "builtin_type_signature.h"
+#include "custom_type_signature.h"
 #include "signature.h"
 
 using namespace std;
@@ -99,6 +100,11 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
             case ELEMENT_TYPE_R8:      return make_builtin_type_signature(builtin_type::Double);
             case ELEMENT_TYPE_STRING:  return make_builtin_type_signature(builtin_type::String);
             case ELEMENT_TYPE_OBJECT:  return make_builtin_type_signature(builtin_type::Object);
+
+            case ELEMENT_TYPE_CLASS:
+            case ELEMENT_TYPE_VALUETYPE:
+                return unique_ptr<type_signature> { new custom_type_signature { read_type_token() } };
+
             default:
                 ostringstream message;
                 message << "Unexpected element type: 0x" << hex << element_type;

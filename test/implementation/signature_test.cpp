@@ -1,7 +1,9 @@
 #include <CppUnitTest.h>
 #include <cstdint>
 #include <simply/assert.h>
+#include <simply/random.h>
 #include <simply/clr/metadata/implementation/builtin_type_signature.h>
+#include <simply/clr/metadata/implementation/custom_type_signature.h>
 #include <simply/clr/metadata/implementation/interop.h>
 #include <simply/clr/metadata/implementation/signature.h>
 #include <simply/clr/metadata/implementation/type_signature.h>
@@ -22,7 +24,30 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
 
             unique_ptr<type_signature> actual { sut.read_type_signature() };
 
-            assert::is_equal(builtin_type, dynamic_cast<builtin_type_signature*>(actual.get())->builtin_type());
+            assert::is_equal(builtin_type, dynamic_cast<builtin_type_signature&>(*actual).builtin_type());
+        }
+
+        void read_type_signature_returns_custom_type_signature(CorElementType element, uint8_t token_type, table table)
+        {
+            const uint8_t type_index { static_cast<uint8_t>(random<uint16_t>(0, 0x1F)) }; // TODO: remove static cast when random supports uint8_t
+            uint8_t blob[] {
+                static_cast<uint8_t>(element),
+                static_cast<uint8_t>((type_index << 2) | token_type)
+            };
+            signature sut { begin(blob), end(blob) };
+
+            unique_ptr<type_signature> actual { sut.read_type_signature() };
+
+            auto custom_type = dynamic_cast<custom_type_signature&>(*actual);
+            assert::is_equal(table, custom_type.token().table());
+            assert::is_equal<unsigned>(type_index, custom_type.token().index());
+        }
+
+        void read_type_signature_returns_custom_type_signature(CorElementType element)
+        {
+            read_type_signature_returns_custom_type_signature(element, 0x00, table::type);
+            read_type_signature_returns_custom_type_signature(element, 0x01, table::type_reference);
+            read_type_signature_returns_custom_type_signature(element, 0x02, table::type_specification);
         }
 	public:
         #pragma region constructor
@@ -213,6 +238,12 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
             read_type_signature_returns_builtin_type_signature_when_blob_contains_it(CorElementType::ELEMENT_TYPE_R8, builtin_type::Double);
             read_type_signature_returns_builtin_type_signature_when_blob_contains_it(CorElementType::ELEMENT_TYPE_OBJECT, builtin_type::Object);
             read_type_signature_returns_builtin_type_signature_when_blob_contains_it(CorElementType::ELEMENT_TYPE_STRING, builtin_type::String);
+        }
+
+        TEST_METHOD(read_type_signature_returns_custom_type_signature_when_blob_contains_class_or_value_type_token)
+        {
+            read_type_signature_returns_custom_type_signature(CorElementType::ELEMENT_TYPE_CLASS);
+            read_type_signature_returns_custom_type_signature(CorElementType::ELEMENT_TYPE_VALUETYPE);
         }
 
         TEST_METHOD(read_type_signature_throws_logic_error_when_element_type_is_not_supported)

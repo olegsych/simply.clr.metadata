@@ -6,7 +6,7 @@
 
 namespace simply { namespace clr { namespace metadata { namespace implementation
 {
-    class custom_type_signature : type_signature
+    class custom_type_signature : public type_signature
     {
         const token _token;
     public:
