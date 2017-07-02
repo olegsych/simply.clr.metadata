@@ -2,7 +2,15 @@
 
 A small C++ library for working with CLR metadata.
 
-## building
+## clone 
+
+This repository contains [submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules).
+
+```
+git clone --recursive https://github.com/olegsych/simply.clr.metadata.git
+```
+
+## build
 
 [![Build status](https://ci.appveyor.com/api/projects/status/github/olegsych/simply.clr.metadata?branch=master&retina=true)](https://ci.appveyor.com/project/olegsych/simply-clr-metadata/branch/master)
 
@@ -17,7 +25,7 @@ msbuild simply.clr.metadata.sln /p:Platform=x86
 msbuild simply.clr.metadata.sln /p:Platform=x64
 ```
 
-## testing
+## test
 
 From Visual Studio 2017:
 - Select _Run_ / _All Tests_ from the _Test_ menu
