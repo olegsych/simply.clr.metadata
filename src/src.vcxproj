@@ -60,7 +60,7 @@
     <ProjectGuid>{E6F779FE-02D8-4562-AFD2-2CC069C51466}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>src</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
