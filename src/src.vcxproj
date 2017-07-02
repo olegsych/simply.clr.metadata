@@ -100,6 +100,7 @@
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <Import Project="simply.clr.metadata.targets" />
   <Import Project="..\modules\simply.collections\src\simply.collections.targets" />
   <Import Project="..\modules\simply.com\src\simply.com.targets" />
 </Project>
