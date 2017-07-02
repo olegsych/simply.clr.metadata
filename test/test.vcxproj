@@ -5,16 +5,8 @@
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|Win32">
-      <Configuration>Release</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|x64">
-      <Configuration>Release</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
@@ -28,20 +20,16 @@
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>false</UseOfMfc>
     <LinkIncremental>true</LinkIncremental>
-  </PropertyGroup>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)'=='Debug'" Label="Configuration">
     <UseDebugLibraries>true</UseDebugLibraries>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)'=='Release'" Label="Configuration">
-    <UseDebugLibraries>false</UseDebugLibraries>
-  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <Import Project="..\common.props" />
   <ItemDefinitionGroup>
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
@@ -53,71 +41,20 @@
       <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
-    <ClCompile>
-      <Optimization>Disabled</Optimization>
-    </ClCompile>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
-    <ClCompile>
-      <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-    </ClCompile>
-    <Link>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-    </Link>
-  </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="stub_IMetaDataDispenserEx.h" />
-    <ClInclude Include="stub_metadata.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="assembly_identity_test.cpp" />
-    <ClCompile Include="assembly_test.cpp" />
-    <ClCompile Include="hash_algorithm_test.cpp" />
-    <ClCompile Include="implementation\custom_type_signature_test.cpp" />
-    <ClCompile Include="implementation\metadata_enumerable_test.cpp" />
-    <ClCompile Include="implementation\metadata_enumerator_test.cpp" />
-    <ClCompile Include="implementation\methods_test.cpp" />
-    <ClCompile Include="implementation\signature_test.cpp" />
-    <ClCompile Include="implementation\system_type_test.cpp" />
-    <ClCompile Include="implementation\types_test.cpp" />
-    <ClCompile Include="implementation\builtin_type_signature_test.cpp" />
-    <ClCompile Include="implementation_test.cpp" />
-    <ClCompile Include="method_test.cpp" />
-    <ClCompile Include="processor_architecture_test.cpp" />
-    <ClCompile Include="table_test.cpp" />
-    <ClCompile Include="token_test.cpp" />
-    <ClCompile Include="type_test.cpp" />
-    <ClCompile Include="version_test.cpp" />
+    <ClInclude Include="**\*.h" />
+    <ClCompile Include="**\*.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\src\src.vcxproj">
       <Project>{e6f779fe-02d8-4562-afd2-2cc069c51466}</Project>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <Import Project="..\src\simply.clr.metadata.targets" />
-  <ImportGroup Label="ExtensionTargets">
-    <Import Project="..\packages\simply.assert.0.1.50\build\native\simply.assert.targets" Condition="Exists('..\packages\simply.assert.0.1.50\build\native\simply.assert.targets')" />
-    <Import Project="..\packages\simply.collections.0.1.9\build\native\simply.collections.targets" Condition="Exists('..\packages\simply.collections.0.1.9\build\native\simply.collections.targets')" />
-    <Import Project="..\packages\simply.com.0.1.50\build\native\simply.com.targets" Condition="Exists('..\packages\simply.com.0.1.50\build\native\simply.com.targets')" />
-    <Import Project="..\packages\simply.random.0.1.3\build\native\simply.random.targets" Condition="Exists('..\packages\simply.random.0.1.3\build\native\simply.random.targets')" />
-    <Import Project="..\packages\simply.utility.0.1.50\build\native\simply.utility.targets" Condition="Exists('..\packages\simply.utility.0.1.50\build\native\simply.utility.targets')" />
-  </ImportGroup>
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\simply.assert.0.1.50\build\native\simply.assert.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\simply.assert.0.1.50\build\native\simply.assert.targets'))" />
-    <Error Condition="!Exists('..\packages\simply.collections.0.1.9\build\native\simply.collections.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\simply.collections.0.1.9\build\native\simply.collections.targets'))" />
-    <Error Condition="!Exists('..\packages\simply.com.0.1.50\build\native\simply.com.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\simply.com.0.1.50\build\native\simply.com.targets'))" />
-    <Error Condition="!Exists('..\packages\simply.random.0.1.3\build\native\simply.random.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\simply.random.0.1.3\build\native\simply.random.targets'))" />
-    <Error Condition="!Exists('..\packages\simply.utility.0.1.50\build\native\simply.utility.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\simply.utility.0.1.50\build\native\simply.utility.targets'))" />
-  </Target>
+  <Import Project="..\modules\simply.assert\src\simply.assert.targets" />
+  <Import Project="..\modules\simply.collections\src\simply.collections.targets" />
+  <Import Project="..\modules\simply.com\src\simply.com.targets" />
+  <Import Project="..\modules\simply.random\src\simply.random.targets" />
+  <Import Project="..\modules\simply.utility\src\simply.utility.targets" />
 </Project>

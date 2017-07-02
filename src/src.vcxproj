@@ -5,55 +5,16 @@
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|Win32">
-      <Configuration>Release</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|x64">
-      <Configuration>Release</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="simply\clr\metadata.h" />
-    <ClInclude Include="simply\clr\metadata\assembly.h" />
-    <ClInclude Include="simply\clr\metadata\assembly_identity.h" />
-    <ClInclude Include="simply\clr\metadata\hash_algorithm.h" />
-    <ClInclude Include="simply\clr\metadata\table.h" />
-    <ClInclude Include="simply\clr\metadata\implementation.h" />
-    <ClInclude Include="simply\clr\metadata\implementation\custom_type_signature.h" />
-    <ClInclude Include="simply\clr\metadata\implementation\interop.h" />
-    <ClInclude Include="simply\clr\metadata\implementation\metadata_enumerable.h" />
-    <ClInclude Include="simply\clr\metadata\implementation\metadata_enumerator.h" />
-    <ClInclude Include="simply\clr\metadata\implementation\methods.h" />
-    <ClInclude Include="simply\clr\metadata\implementation\signature.h" />
-    <ClInclude Include="simply\clr\metadata\implementation\builtin_type.h" />
-    <ClInclude Include="simply\clr\metadata\implementation\builtin_type_signature.h" />
-    <ClInclude Include="simply\clr\metadata\implementation\types.h" />
-    <ClInclude Include="simply\clr\metadata\implementation\type_signature.h" />
-    <ClInclude Include="simply\clr\metadata\method.h" />
-    <ClInclude Include="simply\clr\metadata\processor_architecture.h" />
-    <ClInclude Include="simply\clr\metadata\token.h" />
-    <ClInclude Include="simply\clr\metadata\type.h" />
-    <ClInclude Include="simply\clr\metadata\version.h" />
+    <ClInclude Include="**\*.h" />
+    <ClCompile Include="**\*.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="simply\clr\metadata\assembly.cpp" />
-    <ClCompile Include="simply\clr\metadata\implementation.cpp" />
-    <ClCompile Include="simply\clr\metadata\implementation\methods.cpp" />
-    <ClCompile Include="simply\clr\metadata\implementation\signature.cpp" />
-    <ClCompile Include="simply\clr\metadata\implementation\types.cpp" />
-    <ClCompile Include="simply\clr\metadata\method.cpp" />
-    <ClCompile Include="simply\clr\metadata\token.cpp" />
-    <ClCompile Include="simply\clr\metadata\type.cpp" />
-    <ClCompile Include="simply\clr\metadata\version.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
     <None Include="simply.clr.metadata.targets" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -64,19 +25,15 @@
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)'=='Debug'" Label="Configuration">
     <UseDebugLibraries>true</UseDebugLibraries>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)'=='Release'" Label="Configuration">
-    <UseDebugLibraries>false</UseDebugLibraries>
-  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <Import Project="..\common.props" />
   <ItemDefinitionGroup>
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -84,32 +41,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
-    <ClCompile>
-      <Optimization>Disabled</Optimization>
-    </ClCompile>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
-    <ClCompile>
-      <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-    </ClCompile>
-    <Link>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-    </Link>
-  </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-    <Import Project="..\packages\simply.collections.0.1.9\build\native\simply.collections.targets" Condition="Exists('..\packages\simply.collections.0.1.9\build\native\simply.collections.targets')" />
-    <Import Project="..\packages\simply.com.0.1.50\build\native\simply.com.targets" Condition="Exists('..\packages\simply.com.0.1.50\build\native\simply.com.targets')" />
-  </ImportGroup>
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\simply.collections.0.1.9\build\native\simply.collections.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\simply.collections.0.1.9\build\native\simply.collections.targets'))" />
-    <Error Condition="!Exists('..\packages\simply.com.0.1.50\build\native\simply.com.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\simply.com.0.1.50\build\native\simply.com.targets'))" />
-  </Target>
+  <Import Project="simply.clr.metadata.targets" />
+  <Import Project="..\modules\simply.collections\src\simply.collections.targets" />
+  <Import Project="..\modules\simply.com\src\simply.com.targets" />
 </Project>

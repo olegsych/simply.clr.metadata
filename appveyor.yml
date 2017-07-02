@@ -14,8 +14,10 @@ skip_tags: true
 
 image: Visual Studio 2017
 
+install:
+- git submodule update --init --recursive
+
 build_script:
-- nuget restore
 - msbuild simply.clr.metadata.sln /m /p:Platform=x86 /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
 - msbuild simply.clr.metadata.sln /m /p:Platform=x64 /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
 
