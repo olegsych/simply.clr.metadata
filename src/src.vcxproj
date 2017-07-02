@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -60,9 +60,9 @@
     <ProjectGuid>{E6F779FE-02D8-4562-AFD2-2CC069C51466}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>src</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -102,14 +102,14 @@
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="..\packages\simply.com.0.1.49\build\native\simply.com.targets" Condition="Exists('..\packages\simply.com.0.1.49\build\native\simply.com.targets')" />
-    <Import Project="..\packages\simply.collections.0.1.8\build\native\simply.collections.targets" Condition="Exists('..\packages\simply.collections.0.1.8\build\native\simply.collections.targets')" />
+    <Import Project="..\packages\simply.collections.0.1.9\build\native\simply.collections.targets" Condition="Exists('..\packages\simply.collections.0.1.9\build\native\simply.collections.targets')" />
+    <Import Project="..\packages\simply.com.0.1.50\build\native\simply.com.targets" Condition="Exists('..\packages\simply.com.0.1.50\build\native\simply.com.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\simply.com.0.1.49\build\native\simply.com.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\simply.com.0.1.49\build\native\simply.com.targets'))" />
-    <Error Condition="!Exists('..\packages\simply.collections.0.1.8\build\native\simply.collections.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\simply.collections.0.1.8\build\native\simply.collections.targets'))" />
+    <Error Condition="!Exists('..\packages\simply.collections.0.1.9\build\native\simply.collections.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\simply.collections.0.1.9\build\native\simply.collections.targets'))" />
+    <Error Condition="!Exists('..\packages\simply.com.0.1.50\build\native\simply.com.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\simply.com.0.1.50\build\native\simply.com.targets'))" />
   </Target>
 </Project>
