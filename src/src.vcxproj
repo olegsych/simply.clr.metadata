@@ -11,38 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="simply\clr\metadata.h" />
-    <ClInclude Include="simply\clr\metadata\assembly.h" />
-    <ClInclude Include="simply\clr\metadata\assembly_identity.h" />
-    <ClInclude Include="simply\clr\metadata\hash_algorithm.h" />
-    <ClInclude Include="simply\clr\metadata\table.h" />
-    <ClInclude Include="simply\clr\metadata\implementation.h" />
-    <ClInclude Include="simply\clr\metadata\implementation\custom_type_signature.h" />
-    <ClInclude Include="simply\clr\metadata\implementation\interop.h" />
-    <ClInclude Include="simply\clr\metadata\implementation\metadata_enumerable.h" />
-    <ClInclude Include="simply\clr\metadata\implementation\metadata_enumerator.h" />
-    <ClInclude Include="simply\clr\metadata\implementation\methods.h" />
-    <ClInclude Include="simply\clr\metadata\implementation\signature.h" />
-    <ClInclude Include="simply\clr\metadata\implementation\builtin_type.h" />
-    <ClInclude Include="simply\clr\metadata\implementation\builtin_type_signature.h" />
-    <ClInclude Include="simply\clr\metadata\implementation\types.h" />
-    <ClInclude Include="simply\clr\metadata\implementation\type_signature.h" />
-    <ClInclude Include="simply\clr\metadata\method.h" />
-    <ClInclude Include="simply\clr\metadata\processor_architecture.h" />
-    <ClInclude Include="simply\clr\metadata\token.h" />
-    <ClInclude Include="simply\clr\metadata\type.h" />
-    <ClInclude Include="simply\clr\metadata\version.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="simply\clr\metadata\assembly.cpp" />
-    <ClCompile Include="simply\clr\metadata\implementation.cpp" />
-    <ClCompile Include="simply\clr\metadata\implementation\methods.cpp" />
-    <ClCompile Include="simply\clr\metadata\implementation\signature.cpp" />
-    <ClCompile Include="simply\clr\metadata\implementation\types.cpp" />
-    <ClCompile Include="simply\clr\metadata\method.cpp" />
-    <ClCompile Include="simply\clr\metadata\token.cpp" />
-    <ClCompile Include="simply\clr\metadata\type.cpp" />
-    <ClCompile Include="simply\clr\metadata\version.cpp" />
+    <ClInclude Include="**\*.h" />
+    <ClCompile Include="**\*.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="simply.clr.metadata.targets" />

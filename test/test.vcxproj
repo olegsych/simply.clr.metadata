@@ -42,28 +42,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="stub_IMetaDataDispenserEx.h" />
-    <ClInclude Include="stub_metadata.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="assembly_identity_test.cpp" />
-    <ClCompile Include="assembly_test.cpp" />
-    <ClCompile Include="hash_algorithm_test.cpp" />
-    <ClCompile Include="implementation\custom_type_signature_test.cpp" />
-    <ClCompile Include="implementation\metadata_enumerable_test.cpp" />
-    <ClCompile Include="implementation\metadata_enumerator_test.cpp" />
-    <ClCompile Include="implementation\methods_test.cpp" />
-    <ClCompile Include="implementation\signature_test.cpp" />
-    <ClCompile Include="implementation\system_type_test.cpp" />
-    <ClCompile Include="implementation\types_test.cpp" />
-    <ClCompile Include="implementation\builtin_type_signature_test.cpp" />
-    <ClCompile Include="implementation_test.cpp" />
-    <ClCompile Include="method_test.cpp" />
-    <ClCompile Include="processor_architecture_test.cpp" />
-    <ClCompile Include="table_test.cpp" />
-    <ClCompile Include="token_test.cpp" />
-    <ClCompile Include="type_test.cpp" />
-    <ClCompile Include="version_test.cpp" />
+    <ClInclude Include="**\*.h" />
+    <ClCompile Include="**\*.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\src\src.vcxproj">
