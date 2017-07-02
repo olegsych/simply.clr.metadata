@@ -1,0 +1,15 @@
+[submodule "modules/simply.assert"]
+	path = modules/simply.assert
+	url = https://github.com/olegsych/simply.assert.git
+[submodule "modules/simply.collections"]
+	path = modules/simply.collections
+	url = https://github.com/olegsych/simply.collections.git
+[submodule "modules/simply.com"]
+	path = modules/simply.com
+	url = https://github.com/olegsych/simply.com.git
+[submodule "modules/simply.random"]
+	path = modules/simply.random
+	url = https://github.com/olegsych/simply.random.git
+[submodule "modules/simply.utility"]
+	path = modules/simply.utility
+	url = https://github.com/olegsych/simply.utility.git
