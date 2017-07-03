@@ -10,10 +10,13 @@ namespace simply { namespace clr { namespace metadata
     /// </summary>
     class token
     {
-        const uint32_t value;
     public:
         token(table table, unsigned index);
+        explicit token(uint32_t value);
         table table() const;
         unsigned index() const;
+        operator uint32_t() const;
+    private:
+        const uint32_t value;
     };
 }}}

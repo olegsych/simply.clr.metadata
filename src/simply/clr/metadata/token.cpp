@@ -17,6 +17,11 @@ namespace simply { namespace clr { namespace metadata
         }
     }
 
+    token::token(uint32_t value)
+        : value{value}
+    {
+    }
+
     table_enum token::table() const
     {
         return static_cast<table_enum>(value >> table_bit_offset);
@@ -25,5 +30,10 @@ namespace simply { namespace clr { namespace metadata
     unsigned token::index() const
     {
         return value & index_bit_mask;
+    }
+
+    token::operator uint32_t() const
+    {
+        return value;
     }
 }}}
