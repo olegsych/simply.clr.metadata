@@ -54,7 +54,7 @@ namespace simply { namespace clr { namespace metadata
 
 			assembly result = sut.assembly();
 
-			assert::is_equal(expected, result.token());
+			assert::is_equal<mdAssembly>(expected, result.token());
         }
 
 		TEST_METHOD(assembly_throws_com_error_if_metadata_QueryInterface_fails)

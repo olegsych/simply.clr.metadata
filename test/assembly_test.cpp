@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <CppUnitTest.h>
 #include <simply/assert.h>
+#include <simply/random.h>
 #include <simply/utility.h>
 #include <simply/clr/metadata/assembly.h>
 #include <simply/clr/metadata/implementation.h>
@@ -28,13 +29,13 @@ namespace simply { namespace clr { namespace metadata
             if (interface_id == IID_IMetaDataAssemblyImport)
             {
                 *object = static_cast<IMetaDataAssemblyImport*>(&metadata);
-				metadata.AddRef();
+                metadata.AddRef();
                 return S_OK;
             }
             else if (interface_id == IID_IMetaDataImport2)
             {
                 *object = static_cast<IMetaDataImport2*>(&metadata);
-				metadata.AddRef();
+                metadata.AddRef();
                 return S_OK;
             }
 
@@ -68,11 +69,11 @@ namespace simply { namespace clr { namespace metadata
         TEST_METHOD(identity_invokes_GetAssemblyProps_with_assembly_token_to_obtain_its_properties)
         {
             mdAssembly expected_token { 42 };
-			this->metadata.get_assembly_from_scope = [&](mdAssembly* token)
-			{
-				*token = expected_token;
-				return S_OK;
-			};
+            this->metadata.get_assembly_from_scope = [&](mdAssembly* token)
+            {
+                *token = expected_token;
+                return S_OK;
+            };
             mdAssembly actual_token;
             this->metadata.get_assembly_props = [&](mdAssembly assembly, const void**, ULONG*, ULONG*, LPWSTR, ULONG, ULONG*, ASSEMBLYMETADATA*, DWORD*)
             {
@@ -84,8 +85,8 @@ namespace simply { namespace clr { namespace metadata
             auto expected = assert::throws<com_error>([&] { sut.identity(); });
 
             assert::is_equal(expected_token, actual_token);
-			assert::is_equal(E_NOTIMPL, expected->hresult());
-		}
+            assert::is_equal(E_NOTIMPL, expected->hresult());
+        }
 
         TEST_METHOD(identity_invokes_GetAssemblyProps_with_large_buffer_for_assembly_name)
         {
@@ -214,88 +215,91 @@ namespace simply { namespace clr { namespace metadata
 
         #pragma endregion
 
-		#pragma region token()
+        #pragma region token()
 
         TEST_METHOD(token_returns_value_returned_by_GetAssemblyFromScope)
         {
-            mdAssembly expected { 42 };
-			metadata.get_assembly_from_scope = [&](mdAssembly* token)
-			{
-				*token = expected;
-				return S_OK;
-			};
-			assembly sut { &metadata };
-			unsigned int actual = sut.token();
-			assert::is_equal(expected, actual);
-		}
+            unsigned expected_index { random<unsigned>(0, 0xFFFFFF) };
+            metadata.get_assembly_from_scope = [&](mdAssembly* token)
+            {
+                *token = CorTokenType::mdtAssembly | expected_index;
+                return S_OK;
+            };
+            const assembly sut { &metadata };
 
-		TEST_METHOD(token_throws_com_error_when_GetAssemblyFromScope_returns_failure_code)
-		{
-			metadata.get_assembly_from_scope = [&](mdAssembly* token) { return E_NOTIMPL; };
-			assembly sut { &metadata };
-			auto actual = assert::throws<com_error>([&] { sut.token(); });
-			assert::is_equal(E_NOTIMPL, actual->hresult());
-		}
+            token actual = sut.token();
 
-		#pragma endregion
+            assert::is_equal(table::assembly, actual.table());
+            assert::is_equal(expected_index, actual.index());
+        }
 
-		#pragma region types()
+        TEST_METHOD(token_throws_com_error_when_GetAssemblyFromScope_returns_failure_code)
+        {
+            metadata.get_assembly_from_scope = [&](mdAssembly* token) { return E_NOTIMPL; };
+            assembly sut { &metadata };
+            auto actual = assert::throws<com_error>([&] { sut.token(); });
+            assert::is_equal(E_NOTIMPL, actual->hresult());
+        }
 
-		TEST_METHOD(types_returns_range_of_types_defined_in_assembly)
-		{
-			const mdTypeDef type_token { 42 };
-			stub_metadata metadata;
-			metadata.enum_type_defs = [&](HCORENUM* enum_handle, mdTypeDef* token, ULONG, ULONG* count)
-			{
-				if (*enum_handle == nullptr)
-				{
-					*enum_handle = reinterpret_cast<HCORENUM>(-1);
-					*token = type_token;
-					*count = 1;
-					return S_OK;
-				}
-				return S_FALSE;
-			};
-			assembly sut { &metadata };
+        #pragma endregion
 
-			range<type> actual = sut.types();
+        #pragma region types()
 
-			type expected[] { type { type_token, &metadata } };
-			assert::is_true(equal(begin(expected), end(expected), actual.begin()));
-			assert::is_equal(1, count_if(actual.begin(), actual.end(), [](type) { return true; }));
-		}
+        TEST_METHOD(types_returns_range_of_types_defined_in_assembly)
+        {
+            const mdTypeDef type_token { 42 };
+            stub_metadata metadata;
+            metadata.enum_type_defs = [&](HCORENUM* enum_handle, mdTypeDef* token, ULONG, ULONG* count)
+            {
+                if (*enum_handle == nullptr)
+                {
+                    *enum_handle = reinterpret_cast<HCORENUM>(-1);
+                    *token = type_token;
+                    *count = 1;
+                    return S_OK;
+                }
+                return S_FALSE;
+            };
+            assembly sut { &metadata };
 
-		TEST_METHOD(types_throws_com_error_when_QueryInterface_does_not_return_IMetaDataImport2_to_fail_fast)
-		{
-			stub_metadata metadata;
-			metadata.query_interface = [](const GUID&, void**) { return E_NOINTERFACE; };
-			assembly sut { &metadata };
-			auto e = assert::throws<com_error>([&] { sut.types(); });
-			assert::is_equal(E_NOINTERFACE, e->hresult());
-		}
+            range<type> actual = sut.types();
 
-		#pragma endregion
+            type expected[] { type { type_token, &metadata } };
+            assert::is_true(equal(begin(expected), end(expected), actual.begin()));
+            assert::is_equal(1, count_if(actual.begin(), actual.end(), [](type) { return true; }));
+        }
 
-		#pragma region operator==()
+        TEST_METHOD(types_throws_com_error_when_QueryInterface_does_not_return_IMetaDataImport2_to_fail_fast)
+        {
+            stub_metadata metadata;
+            metadata.query_interface = [](const GUID&, void**) { return E_NOINTERFACE; };
+            assembly sut { &metadata };
+            auto e = assert::throws<com_error>([&] { sut.types(); });
+            assert::is_equal(E_NOINTERFACE, e->hresult());
+        }
 
-		TEST_METHOD(assemblies_are_equal_when_they_have_same_metadata_scope)
-		{
-			stub_metadata metadata;
-			assembly left { &metadata };
-			assembly right { &metadata };
-			assert::is_true(left == right);
-		}
+        #pragma endregion
 
-		TEST_METHOD(assemblies_are_not_equal_when_they_have_different_metadata_scopes)
-		{
-			stub_metadata left_metadata;
-			assembly left { &left_metadata };
-			stub_metadata right_metadata;
-			assembly right { &right_metadata };
-			assert::is_false(left == right);
-		}
+        #pragma region operator==()
 
-		#pragma endregion
+        TEST_METHOD(assemblies_are_equal_when_they_have_same_metadata_scope)
+        {
+            stub_metadata metadata;
+            assembly left { &metadata };
+            assembly right { &metadata };
+            assert::is_true(left == right);
+        }
+
+        TEST_METHOD(assemblies_are_not_equal_when_they_have_different_metadata_scopes)
+        {
+            stub_metadata left_metadata;
+            assembly left { &left_metadata };
+            stub_metadata right_metadata;
+            assembly right { &right_metadata };
+            assert::is_false(left == right);
+        }
+
+        #pragma endregion
 
         #pragma region load_from
 

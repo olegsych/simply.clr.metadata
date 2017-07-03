@@ -4,8 +4,8 @@
 
 namespace simply { namespace clr { namespace metadata
 {
-	using namespace std;
-	using namespace implementation;
+    using namespace std;
+    using namespace implementation;
 
     namespace // implementation
     {
@@ -44,7 +44,7 @@ namespace simply { namespace clr { namespace metadata
         ASSEMBLYMETADATA metadata;
         unsigned long flags;
 
-		check(_metadata->GetAssemblyProps(token(), &public_key, &public_key_size, &hash_algorithm, name_buffer, name_capacity, &name_length, &metadata, &flags));
+        check(_metadata->GetAssemblyProps(token(), &public_key, &public_key_size, &hash_algorithm, name_buffer, name_capacity, &name_length, &metadata, &flags));
         return assembly_identity
         {
             wstring { name_buffer, name_length },
@@ -55,24 +55,24 @@ namespace simply { namespace clr { namespace metadata
         };
     }
 
-	unsigned int assembly::token() const
-	{
-		mdAssembly token;
-		check(_metadata->GetAssemblyFromScope(&token));
-		return token;
-	}
+    token assembly::token() const
+    {
+        mdAssembly token;
+        check(_metadata->GetAssemblyFromScope(&token));
+        return metadata::token { token };
+    }
 
-	range<type> assembly::types() const
-	{
-		com_ptr<IMetaDataImport2> metadata;
-		check(_metadata->QueryInterface(IID_IMetaDataImport2, metadata));
-		return range<type> { shared_ptr<enumerable<type>> { new implementation::types { metadata } } };
-	}
+    range<type> assembly::types() const
+    {
+        com_ptr<IMetaDataImport2> metadata;
+        check(_metadata->QueryInterface(IID_IMetaDataImport2, metadata));
+        return range<type> { shared_ptr<enumerable<type>> { new implementation::types { metadata } } };
+    }
 
-	bool assembly::operator==(const assembly& other) const
-	{
-		return _metadata.get() == other._metadata.get();
-	}
+    bool assembly::operator==(const assembly& other) const
+    {
+        return _metadata.get() == other._metadata.get();
+    }
 
     assembly assembly::load_from(const wstring& file_path)
     {
@@ -82,4 +82,3 @@ namespace simply { namespace clr { namespace metadata
         return assembly { metadata };
     }
 }}}
-
