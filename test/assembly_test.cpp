@@ -247,7 +247,7 @@ namespace simply { namespace clr { namespace metadata
 
         TEST_METHOD(types_returns_range_of_types_defined_in_assembly)
         {
-            const mdTypeDef type_token { 42 };
+            const token type_token { 42 };
             stub_metadata metadata;
             metadata.enum_type_defs = [&](HCORENUM* enum_handle, mdTypeDef* token, ULONG, ULONG* count)
             {

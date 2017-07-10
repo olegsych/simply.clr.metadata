@@ -7,23 +7,23 @@
 
 namespace simply { namespace clr { namespace metadata
 {
-	class assembly;
+    class assembly;
 
     class type
     {
     public:
-		type(mdTypeDef token, com_ptr<IMetaDataImport2> metadata);
+        type(metadata::token, com_ptr<IMetaDataImport2>);
 
-		assembly assembly() const;
-		range<method> methods() const;
+        assembly assembly() const;
+        range<method> methods() const;
         const std::wstring name() const;
-		unsigned int token() const;
-		bool operator==(const type& other) const;
+        token token() const;
+        bool operator==(const type& other) const;
 
     private:
-        const mdTypeDef _token;
+        const metadata::token _token;
         const com_ptr<IMetaDataImport2> _metadata;
 
-		friend class type_test;
+        friend class type_test;
     };
 }}}
