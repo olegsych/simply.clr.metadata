@@ -22,7 +22,7 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
 			check(metadata->EnumMethods(&enum_handle, type_token, &method_token, 1, &count));
 			if (count == 1)
 			{
-				new(element) method { method_token, metadata };
+                new(element) method { token { method_token }, metadata };
 				return true;
 			}
 			return false;

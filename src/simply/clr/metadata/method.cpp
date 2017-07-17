@@ -6,7 +6,7 @@ using namespace std;
 
 namespace simply { namespace clr { namespace metadata 
 {
-    method::method(mdMethodDef token, com_ptr<IMetaDataImport2> metadata)
+    method::method(metadata::token token, com_ptr<IMetaDataImport2> metadata)
         : _token { token }, _metadata { metadata }
     {
         if (!metadata.get())
@@ -24,7 +24,7 @@ namespace simply { namespace clr { namespace metadata
         return wstring { buffer, length };
     }
 
-    unsigned int method::token() const
+    token method::token() const
     {
         return _token;
     }

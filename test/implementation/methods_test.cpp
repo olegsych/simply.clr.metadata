@@ -46,7 +46,7 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
 		TEST_METHOD(get_next_returns_true_and_first_element_when_called_first_time)
 		{
 			mdTypeDef expected_type_token { 420 };
-			mdMethodDef expected_method_token { 42 };
+			const token expected_method_token { 42 };
 			stub_metadata metadata;
 			metadata.enum_methods = [&](HCORENUM* enum_handle, mdTypeDef type_token, mdMethodDef* method_tokens, ULONG max_count, ULONG* actual_count)
 			{
@@ -66,13 +66,13 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
 			bool result = enumerator->get_next(&element.method);
 
 			assert::is_true(result);
-			assert::is_equal(expected_method_token, element.method.token());
+            assert::is_equal(expected_method_token, element.method.token());
 		}
 
 		TEST_METHOD(get_next_returns_true_and_second_element_when_called_second_time)
 		{
 			mdTypeDef expected_type_token { 420 };
-			mdMethodDef expected_method_token { 42 };
+			const token expected_method_token { 42 };
 			auto expected_enum_handle = reinterpret_cast<HCORENUM>(0x42424242);
 			stub_metadata metadata;
 			metadata.enum_methods = [&](HCORENUM* enum_handle, mdTypeDef type_token, mdMethodDef* method_tokens, ULONG max_count, ULONG* actual_count)
@@ -104,12 +104,12 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
 			element e;
 			assert::is_true(enumerator->get_next(&e.method));
 			assert::is_true(enumerator->get_next(&e.method));
-			assert::is_equal(expected_method_token, e.method.token());
+            assert::is_equal(expected_method_token, e.method.token());
 		}
 
 		TEST_METHOD(get_next_returns_false_and_no_element_when_enum_is_empty)
 		{
-			mdMethodDef unexpected_method_token { 42 };
+			const token unexpected_method_token { 42 };
 			stub_metadata metadata;
 			metadata.enum_methods = [&](HCORENUM*, mdTypeDef, mdMethodDef* method_tokens, ULONG, ULONG* actual_count)
 			{

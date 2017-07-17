@@ -3,19 +3,20 @@
 #include <string>
 #include <simply/com/com_ptr.h>
 #include "implementation/interop.h"
+#include "token.h"
 
 namespace simply { namespace clr { namespace metadata
 {
     class method
     {
     public:
-        method(mdMethodDef, com_ptr<IMetaDataImport2>);
+        method(const token token, com_ptr<IMetaDataImport2>);
         const std::wstring name() const;
-        unsigned int token() const;
+        token token() const;
         bool operator==(const method&) const;
 
     private:
-        const mdMethodDef _token;
+        const metadata::token _token;
         const com_ptr<IMetaDataImport2> _metadata;
     };
 }}}

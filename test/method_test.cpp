@@ -13,11 +13,12 @@ namespace simply { namespace clr { namespace metadata
     TEST_CLASS(method_test)
     {
         stub_metadata metadata;
+        const token token { 0 };
     public:
         TEST_METHOD(constructor_throws_invalid_argument_when_IMetaDataImport2_is_not_specified)
         {
             com_ptr<IMetaDataImport2> invalid;
-            auto e = assert::throws<invalid_argument>([&] { method { 0, invalid }; });
+            auto e = assert::throws<invalid_argument>([&] { method { token, invalid }; });
             assert::is_equal("metadata must not be a nullptr.", e->what());
         }
 
@@ -31,7 +32,7 @@ namespace simply { namespace clr { namespace metadata
                 return 2;
             };
 
-            method sut { 0, move(pointer) };
+            method sut { token, move(pointer) };
 
             assert::is_true(reference_added);
         }
@@ -39,7 +40,7 @@ namespace simply { namespace clr { namespace metadata
         TEST_METHOD(destructor_releases_IMetaDataImport2_object_stored_by_constructor)
         {
             com_ptr<IMetaDataImport2> pointer { &metadata };
-            method sut { 0, move(pointer) };
+            method sut { token, move(pointer) };
             bool released { false };
             metadata.release = [&]
             {
@@ -59,7 +60,7 @@ namespace simply { namespace clr { namespace metadata
 
         TEST_METHOD(name_returns_value_supplied_by_IMetaDataImport2_GetMethodProps_and_no_other_information)
         {
-            const mdMethodDef expected_token { 42 };
+            const metadata::token expected_token { 42 };
             const wstring expected_name { L"TestMethod" };
             mdMethodDef actual_token;
             metadata.get_method_props = [&](mdMethodDef token, mdTypeDef*, LPWSTR name, ULONG, ULONG* name_length, DWORD*, PCCOR_SIGNATURE*, ULONG*, ULONG*, DWORD*)
@@ -73,7 +74,7 @@ namespace simply { namespace clr { namespace metadata
             const method sut { expected_token, &metadata };
             const wstring actual_name { sut.name() };
 
-            assert::is_equal(expected_token, actual_token);
+            assert::is_equal<uint32_t>(expected_token, actual_token);
             assert::is_equal(expected_name, actual_name);
         }
 
@@ -83,14 +84,14 @@ namespace simply { namespace clr { namespace metadata
             {
                 return E_INVALIDARG;
             };
-            const method sut { 42, &metadata };
+            const method sut { token, &metadata };
             auto e = assert::throws<com_error>([&] { sut.name(); });
             assert::is_equal(E_INVALIDARG, e->hresult());
         }
 
         TEST_METHOD(token_returns_value_stored_by_constructor)
         {
-            mdMethodDef expected { 42 };
+            const metadata::token expected { 42 };
             const method sut { expected, &metadata };
             assert::is_equal(expected, sut.token());
         }
@@ -99,7 +100,7 @@ namespace simply { namespace clr { namespace metadata
 
         TEST_METHOD(methods_are_equal_if_they_have_identical_tokens_and_metadata_scopes)
         {
-            mdMethodDef token { 42 };
+            const metadata::token token { 42 };
             stub_metadata metadata;
             const method left { token, &metadata };
             const method right { token, &metadata };
@@ -109,14 +110,14 @@ namespace simply { namespace clr { namespace metadata
         TEST_METHOD(methods_are_not_equal_if_they_have_different_tokens_in_same_metadata_scope)
         {
             stub_metadata metadata;
-            const method left { 42, &metadata };
-            const method right { 24, &metadata };
+            const method left { metadata::token { 42 }, &metadata };
+            const method right { metadata::token { 24 } , &metadata };
             assert::is_false(left == right);
         }
 
         TEST_METHOD(types_are_not_equal_of_they_have_same_token_in_different_metadata_scopes)
         {
-            mdMethodDef token { 42 };
+            const metadata::token token { 42 };
             stub_metadata left_metadata;
             const method left { token, &left_metadata };
             stub_metadata right_metadata;

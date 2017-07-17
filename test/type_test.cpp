@@ -92,7 +92,7 @@ namespace simply { namespace clr { namespace metadata
         TEST_METHOD(methods_returns_range_of_methods_defined_in_type)
         {
             const token expected_type_token { 420 };
-            mdMethodDef expected_method_token { 42 };
+            const token expected_method_token { 42 };
             metadata.enum_methods = [&](HCORENUM* enum_handle, mdTypeDef type_token, mdMethodDef* method_tokens, ULONG, ULONG* token_count)
             {
                 if (*enum_handle == nullptr && type_token == expected_type_token)
