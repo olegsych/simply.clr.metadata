@@ -19,6 +19,8 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
             element() {}
             ~element() {}
         };
+
+        const token type_token { 0 };
     public:
         TEST_METHOD(class_inherits_pointer_management_from_metadata_enumerable)
         {
@@ -28,7 +30,7 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
         TEST_METHOD(create_enumerator_returns_type_derived_from_metadata_enumerator_to_guarantee_resource_cleanup)
         {
             stub_metadata metadata;
-            methods sut { 0, com_ptr<IMetaDataImport2> { &metadata } };
+            methods sut { type_token, com_ptr<IMetaDataImport2> { &metadata } };
             unique_ptr<enumerator<method>> result = sut.create_enumerator();
             assert::is_not_null(dynamic_cast<metadata_enumerator<method>*>(result.get()));
         }
@@ -37,7 +39,7 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
         {
             stub_metadata metadata;
             metadata.enum_methods = [](HCORENUM*, mdTypeDef, mdMethodDef*, ULONG, ULONG*) { return E_INVALIDARG; };
-            methods sut { 0, com_ptr<IMetaDataImport2> { &metadata } };
+            methods sut { type_token, com_ptr<IMetaDataImport2> { &metadata } };
             unique_ptr<enumerator<method>> enumerator = sut.create_enumerator();
             element result;
             assert::throws<com_error>([&] { enumerator->get_next(&result.method); });
@@ -45,7 +47,7 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
 
         TEST_METHOD(get_next_returns_true_and_first_element_when_called_first_time)
         {
-            mdTypeDef expected_type_token { 420 };
+            const token expected_type_token { 420 };
             const token expected_method_token { 42 };
             stub_metadata metadata;
             metadata.enum_methods = [&](HCORENUM* enum_handle, mdTypeDef type_token, mdMethodDef* method_tokens, ULONG max_count, ULONG* actual_count)
@@ -71,7 +73,7 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
 
         TEST_METHOD(get_next_returns_true_and_second_element_when_called_second_time)
         {
-            mdTypeDef expected_type_token { 420 };
+            const token expected_type_token { 420 };
             const token expected_method_token { 42 };
             auto expected_enum_handle = reinterpret_cast<HCORENUM>(0x42424242);
             stub_metadata metadata;
@@ -117,7 +119,7 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
                 *actual_count = 0;
                 return S_FALSE;
             };
-            methods sut { 0, com_ptr<IMetaDataImport2> { &metadata } };
+            methods sut { type_token, com_ptr<IMetaDataImport2> { &metadata } };
             unique_ptr<enumerator<method>> enumerator = sut.create_enumerator();
 
             element e;

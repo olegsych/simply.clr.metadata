@@ -8,9 +8,9 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
 {
     class method_enumerator : public metadata_enumerator<method>
     {
-        const mdTypeDef type_token;
+        const token type_token;
     public:
-        method_enumerator(mdTypeDef type_token, com_ptr<IMetaDataImport2> metadata)
+        method_enumerator(token type_token, com_ptr<IMetaDataImport2> metadata)
             : type_token { type_token }, metadata_enumerator { metadata }
         {
         }
@@ -29,7 +29,7 @@ namespace simply { namespace clr { namespace metadata { namespace implementation
         }
     };
 
-    methods::methods(mdTypeDef type_token, com_ptr<IMetaDataImport2> metadata)
+    methods::methods(token type_token, com_ptr<IMetaDataImport2> metadata)
         : metadata_enumerable<method>(metadata), type_token { type_token }
     {
     }
